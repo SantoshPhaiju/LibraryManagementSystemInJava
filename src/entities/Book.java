@@ -1,10 +1,15 @@
 package entities;
 
+import java.util.List;
+import java.util.Map;
+
 public class Book {
     private String title;
     private String author;
     private int bookId;
     private int quantity;
+    private Map<String, List<String>> issuedList;
+
 
     public Book() {
 
@@ -15,6 +20,14 @@ public class Book {
         this.author = author;
         this.bookId = bookId;
         this.quantity = quantity;
+    }
+
+    public Map<String, List<String>> getIssuedList() {
+        return issuedList;
+    }
+
+    public void setIssuedList(Map<String, List<String>> issuedList) {
+        this.issuedList = issuedList;
     }
 
     public String getTitle() {
