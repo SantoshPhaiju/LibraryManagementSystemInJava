@@ -21,4 +21,8 @@ public interface LibraryService {
 
     public Book returnBook(String bookName, User user);
 
+    public void displayAllBooks();
+
+    public void displayIssuedBook();
+
 }

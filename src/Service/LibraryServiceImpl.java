@@ -83,4 +83,30 @@ public class LibraryServiceImpl implements LibraryService {
     public Book returnBook(String bookName, User user) {
         return null;
     }
+
+    @Override
+    public void displayAllBooks() {
+        System.out.println("Books List: ");
+        for (Book book : books) {
+            System.out.println(book.getTitle() + ": " + book.getAuthor() + " " + book.getBookId() + " " + book.getQuantity());
+        }
+    }
+
+    @Override
+    public void displayIssuedBook() {
+        System.out.println("Issued books list: ");
+        for (Book book : books) {
+            Map<String, List<String>> issuedList = book.getIssuedList();
+            if (issuedList != null && !issuedList.isEmpty()) {
+                System.out.println("issued books list:- ");
+                for (Map.Entry<String, List<String>> entry : issuedList.entrySet()) {
+                    String bookName = entry.getKey();
+                    List<String> issueDetails = entry.getValue();
+                    System.out.println(bookName + " : " + issueDetails);
+                }
+            }
+        }
+    }
+
 }
+
