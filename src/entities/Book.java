@@ -9,6 +9,7 @@ public class Book {
     private int bookId;
     private int quantity;
     private Map<String, List<String>> issuedList;
+    private boolean b;
 
 
     public Book() {
@@ -60,5 +61,13 @@ public class Book {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public boolean isIssued() {
+        return true;
+    }
+
+    public void setIssued(boolean b) {
+        this.b = b;
     }
 }

@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class LibraryClass {
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("""
@@ -92,7 +91,12 @@ public class LibraryClass {
                     break;
 
                 case 6:
-                    System.out.println("Book returned successfully.");
+                    System.out.println("Enter the return Book: ");
+                    String booksName = scanner.nextLine();
+                    System.out.println("Enter the userName: ");
+                    String returnUsername = scanner.nextLine();
+                    User returnUser  = new User(returnUsername);
+                    newLibrary.returnBook(booksName,returnUser);
                     break;
 
                 case 7:

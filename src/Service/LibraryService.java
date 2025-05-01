@@ -19,7 +19,7 @@ public interface LibraryService {
 
     public void issueBook(String bookName, User user);
 
-    public Book returnBook(String bookName, User user);
+    public void returnBook(String bookName, User user);
 
     public void displayAllBooks();
 
