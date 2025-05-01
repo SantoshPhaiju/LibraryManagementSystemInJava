@@ -69,26 +69,41 @@ public class LibraryServiceImpl implements LibraryService {
         }
         if (newBook == null) {
             System.out.println("Book not found: " + bookName);
-        } else {
+        } else if(newBook.getQuantity() > 0) {
             Map<String, List<String>> issuedList = new HashMap<>();
             List<String> issuedToUser = new ArrayList<>();
             issuedToUser.add(user.getUsername());
             issuedList.put(newBook.getTitle(), issuedToUser);
             newBook.setIssuedList(issuedList);
-            System.out.println("Book Issued: " + newBook.getTitle() + " to user: " + user.getUsername());
+            newBook.setQuantity(newBook.getQuantity() - 1);
+            System.out.println(newBook.getTitle() + " book is issued " + " to the user: " + user.getUsername());
+        } else {
+            System.out.println("Book is out of stock!");
         }
     }
 
     @Override
-    public Book returnBook(String bookName, User user) {
-        return null;
+    public void returnBook(String bookName, User user) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(bookName)) {
+                if (book.isIssued()) {
+                    book.setIssued(false);
+                    System.out.println("Book '" + bookName + "' has been successfully returned.");
+                } else {
+                    System.out.println("Book '" + bookName + "' was not issued.");
+                }
+                return;
+            }
+        }
+        System.out.println("Book '" + bookName + "' not found in the library.");
+
     }
 
     @Override
     public void displayAllBooks() {
         System.out.println("Books List: ");
         for (Book book : books) {
-            System.out.println(book.getTitle() + ": " + book.getAuthor() + " " + book.getBookId() + " " + book.getQuantity());
+            System.out.println("BookId: " + book.getBookId() + " Title: " + book.getTitle() + " Quantity: " + book.getQuantity() + " Author: " + book.getAuthor());
         }
     }
 
