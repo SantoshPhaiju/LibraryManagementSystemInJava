@@ -3,6 +3,8 @@ import Service.LibraryServiceImpl;
 import entities.Book;
 import entities.User;
 
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LibraryClass {
@@ -19,100 +21,131 @@ public class LibraryClass {
 
         boolean quit = true;
         LibraryService newLibrary = new LibraryServiceImpl();
-;
+        ;
         while (quit) {
-            System.out.println("""
-                    ===    Enter your choice:
-                    ===    1. Add a new book.
-                    ===    2. Update book.
-                    ===    3. Display All Books.
-                    ===    4. Issue book.
-                    ===    5. Show all issued books.
-                    ===    6. Return book.
-                    ===    7. Delete a book.
-                    ===    8. Exit the program.
-                    """);
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            switch (choice) {
-                case 1:
-                    System.out.println("Enter bookId: ");
-                    int bookId = scanner.nextInt();
+            try {
+                System.out.println("""
+                        ===    Enter your choice:
+                        ===    1. Add a new book.
+                        ===    2. Update book.
+                        ===    3. Display All Books.
+                        ===    4. Issue book.
+                        ===    5. Show all issued books.
+                        ===    6. Return book.
+                        ===    7. Delete a book.
+                        ===    8. Exit the program.
+                        """);
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter bookId: ");
+                        int bookId = scanner.nextInt();
 
-                    scanner.nextLine();
+                        scanner.nextLine();
 
-                    System.out.println("Enter book name: ");
-                    String title = scanner.nextLine();
+                        System.out.println("Enter book name: ");
+                        String title = scanner.nextLine();
 
-                    System.out.println("Enter author: ");
-                    String author = scanner.nextLine();
+                        System.out.println("Enter author: ");
+                        String author = scanner.nextLine();
 
-                    System.out.println("Enter quantity of the book: ");
-                    int quantity = scanner.nextInt();
-                    scanner.nextLine();
+                        System.out.println("Enter quantity of the book: ");
+                        int quantity = scanner.nextInt();
+                        scanner.nextLine();
 
-                    Book book = new Book(title, author, bookId, quantity);
-                    newLibrary.addBook(book);
-                    break;
+                        Book book = new Book(title, author, bookId, quantity);
+                        newLibrary.addBook(book);
+                        break;
 
-                case 2:
-                    System.out.println("Enter bookName to update: ");
-                    String bookName = scanner.nextLine();
+                    case 2:
+                        try {
+                            System.out.print("Enter bookName to update: ");
+                            String bookNameToUpdate = scanner.nextLine();
 
-                    Book updatedBook = newLibrary.getBook(bookName);
+                            Book updatedBook = newLibrary.getBook(bookNameToUpdate);
 
+                            if (updatedBook == null) {
+                                System.out.println("This book is not found.");
+                                break;
+                            }
 
-                    System.out.println("Enter new book name: ");
-                    String newBookName = scanner.nextLine();
+                            System.out.print("Enter new book name: ");
+                            String newBookName = scanner.nextLine();
+                            updatedBook.setTitle(newBookName);
+                            System.out.println("Book title updated successfully.");
+                            break;
+                        } catch (NullPointerException e) {
+                            System.out.println("This book is not found.");
+                            break;
+                        }
 
-                    updatedBook.setTitle(newBookName);
-                    System.out.println("Book title updated successfully.");
-                    break;
+                    case 3:
+                        newLibrary.displayAllBooks();
+                        break;
 
-                case 3:
-                    newLibrary.displayAllBooks();
-                    break;
+                    case 4:
+                        System.out.print("Enter book name to issue: ");
+                        String bookName = scanner.nextLine();
 
-                case 4:
-                    System.out.println("Enter bookName to issue: ");
-                    String myBook = scanner.nextLine();
-                    scanner.nextLine();
+                        System.out.print("Enter user's name: ");
+                        String userName = scanner.nextLine();
 
-                    System.out.println("Enter the user to issue the book for: ");
-                    String userName = scanner.nextLine();
-                    User newUser = new User(userName);
-                    System.out.println("Your book name is: " + myBook);
+                        System.out.print("Enter user's email: ");
+                        String email = scanner.nextLine();
 
-                    newLibrary.issueBook(myBook, newUser);
-                    break;
+                        User newUser = new User(userName, email);
+                        boolean issued = newLibrary.issueBook(bookName, newUser, email);
 
-                case 5:
-                    newLibrary.displayIssuedBook();
-                    break;
+                        if (issued) {
+                            System.out.println("Book issued successfully to " + userName + " (" + email + ")");
+                        } else {
+                            System.out.println("Book not found or already issued.");
+                        }
+                        break;
 
-                case 6:
-                    System.out.println("Enter the return Book: ");
-                    String booksName = scanner.nextLine();
-                    System.out.println("Enter the userName: ");
-                    String returnUsername = scanner.nextLine();
-                    User returnUser  = new User(returnUsername);
-                    newLibrary.returnBook(booksName,returnUser);
-                    break;
+                    case 5:
+                        newLibrary.displayIssuedBook();
+                        break;
 
-                case 7:
-                    System.out.println("Book deleted successfully.");
-                    break;
+                    case 6:
+                        System.out.print("Enter the return Book name: ");
+                        String booksName = scanner.nextLine();
 
-                case 8:
-                    quit = false;
-                    break;
+                        System.out.print("Enter the user name: \n");
+                        String returnUsername = scanner.nextLine();
 
-                default:
-                    System.out.println("Invalid choice. Try again.");
-                    break;
+                        System.out.println("Enter user email: ");
+                        String returnUserEmail = scanner.nextLine();
+
+                        User returnUser = new User(returnUsername, returnUserEmail);
+
+                        if (newLibrary.returnBook(booksName, returnUser)) {
+                            System.out.println("Book returned successfully.");
+                        } else {
+                            System.out.println("Book was not issued!");
+                        }
+                        break;
+
+                    case 7:
+                        System.out.print("Enter book name to delete: ");
+                        String bookToDelete = scanner.nextLine();
+                        newLibrary.deleteBooks(bookToDelete);
+                        System.out.println("Book deleted successfully.");
+                        break;
+
+                    case 8:
+                        quit = false;
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice. Try again.");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Enter a number from 1 to 8 — not a string!");
+                scanner.nextLine();
             }
         }
-
-
     }
 }
