@@ -21,7 +21,7 @@ public class LibraryClass {
 
         boolean quit = true;
         LibraryService newLibrary = new LibraryServiceImpl();
-        ;
+
         while (quit) {
             try {
                 System.out.println("""

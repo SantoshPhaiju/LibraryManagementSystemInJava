@@ -3,11 +3,10 @@ package Service;
 import entities.Book;
 import entities.User;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.io.*;
+import java.util.*;
+
 
 public class LibraryServiceImpl implements LibraryService {
 
@@ -16,6 +15,14 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public void addBook(Book book) {
         books.add(book);
+        try (FileWriter writer = new FileWriter("src/booksdata.txt", true)) { // true = append mode
+            writer.write("BookId: " + book.getBookId() +
+                    ", Title: " + book.getTitle() +
+                    ", Author: " + book.getAuthor() +
+                    ", Quantity: " + book.getQuantity() + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -68,10 +75,17 @@ public class LibraryServiceImpl implements LibraryService {
             }
         }
 
+
         if (newBook == null) {
             System.out.println("Book not found: " + bookName);
             return false;
+        }
+
+        if (newBook.getQuantity() == 0) {
+            System.out.println("Book is out of Stock!");
+            return false;
         } else {
+
             Map<String, List<String>> issuedList = newBook.getIssuedList();
             if (issuedList == null) {
                 issuedList = new HashMap<>();
@@ -88,6 +102,7 @@ public class LibraryServiceImpl implements LibraryService {
 //            issuedToUsers.add(user.getEmail());
             issuedList.put(bookName, issuedToUsers);
             newBook.setIssuedList(issuedList);
+            newBook.setQuantity(newBook.getQuantity() - 1);
 
             System.out.println("Book Issued: " + newBook.getTitle() + " to user: " + user.getUsername() + " User Email: " + user.getEmail());
             return true;
@@ -111,6 +126,7 @@ public class LibraryServiceImpl implements LibraryService {
                             issuedList.put(bookName, issuedUsers);
                         }
 
+                        book.setQuantity(book.getQuantity() + 1);
                         book.setIssuedList(issuedList);
                         return true;
                     }
@@ -124,9 +140,21 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public void displayAllBooks() {
         System.out.println("Books List: ");
-        for (Book book : books) {
-            System.out.println("BookId: " + book.getBookId() + " Title: " + book.getTitle() + " Quantity: " + book.getQuantity() + " Author: " + book.getAuthor());
+        try {
+        FileReader fileReader = new FileReader("src/booksdata.txt");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line = bufferedReader.readLine();
+        while (line != null) {
+            System.out.println(line);
+            line = bufferedReader.readLine();
         }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        for (Book book : books) {
+//            System.out.println("BookId: " + book.getBookId() + " Title: " + book.getTitle() + " Quantity: " + book.getQuantity() + " Author: " + book.getAuthor());
+//        }
     }
 
     public void displayIssuedBook() {
@@ -172,4 +200,5 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
 }
+
 
