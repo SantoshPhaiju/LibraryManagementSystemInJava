@@ -70,4 +70,18 @@ public class Book {
     public void setIssued(boolean b) {
         this.b = b;
     }
+
+    @Override
+    public String toString() {
+        return title + " by " + author + (isIssued ? " (Issued)" : " (Available)");
+    }
+
+    public String toFileString() {
+        return bookId + "," + title + "," + author + "," + quantity;
+    }
+
+    public static Book fromFileString(String line) {
+        String[] parts = line.trim().split("\\s*,\\s*");
+        return new Book(parts[1], parts[2], Integer.parseInt(parts[0]), Integer.parseInt(parts[3]));
+    }
 }
