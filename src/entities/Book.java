@@ -9,7 +9,7 @@ public class Book {
     private int bookId;
     private int quantity;
     private Map<String, List<String>> issuedList;
-    private boolean b;
+    private boolean isIssued;
 
 
     public Book() {
@@ -64,11 +64,11 @@ public class Book {
     }
 
     public boolean isIssued() {
-        return true;
+        return this.isIssued;
     }
 
     public void setIssued(boolean b) {
-        this.b = b;
+        this.isIssued = b;
     }
 
     @Override

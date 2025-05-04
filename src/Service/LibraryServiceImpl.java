@@ -66,7 +66,7 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public boolean issueBook(String bookName, User user, String email) {
+    public boolean issueBook(String bookName, User user) {
         Book newBook = null;
         for (Book book : books) {
             if (book.getTitle().equals(bookName)) {
@@ -99,12 +99,11 @@ public class LibraryServiceImpl implements LibraryService {
             }
 
             issuedToUsers.add(user.getUsername());
-//            issuedToUsers.add(user.getEmail());
             issuedList.put(bookName, issuedToUsers);
             newBook.setIssuedList(issuedList);
             newBook.setQuantity(newBook.getQuantity() - 1);
 
-            System.out.println("Book Issued: " + newBook.getTitle() + " to user: " + user.getUsername() + " User Email: " + user.getEmail());
+            System.out.println("Book Issued: " + newBook.getTitle() + " to user: " + user.getUsername());
             return true;
         }
     }
@@ -168,8 +167,7 @@ public class LibraryServiceImpl implements LibraryService {
                 for (Map.Entry<String, List<String>> entry : issuedList.entrySet()) {
                     String bookName = entry.getKey();
                     List<String> issueDetails = entry.getValue();
-                    List<String> emailsUsers = entry.getValue();
-                    System.out.println("Books Name:-" + bookName + " UserName:-" + issueDetails + "User Email:-" + emailsUsers);
+                    System.out.println("Books Name:-" + bookName + " UserName:-" + issueDetails);
                 }
             }
         }

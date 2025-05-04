@@ -2,11 +2,9 @@ package entities;
 
 public class User {
     private String username;
-    private String email;
 
-    public User(String username, String email) {
+    public User(String username) {
         this.username = username;
-        this.email = email;
     }
 
     public String getUsername() {
@@ -17,8 +15,6 @@ public class User {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
-    }
+
 
 }

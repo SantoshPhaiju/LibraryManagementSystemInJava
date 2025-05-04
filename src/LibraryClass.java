@@ -91,14 +91,11 @@ public class LibraryClass {
                         System.out.print("Enter user's name: ");
                         String userName = scanner.nextLine();
 
-                        System.out.print("Enter user's email: ");
-                        String email = scanner.nextLine();
-
-                        User newUser = new User(userName, email);
-                        boolean issued = newLibrary.issueBook(bookName, newUser, email);
+                        User newUser = new User(userName);
+                        boolean issued = newLibrary.issueBook(bookName, newUser);
 
                         if (issued) {
-                            System.out.println("Book issued successfully to " + userName + " (" + email + ")");
+                            System.out.println("Book issued successfully to " + userName);
                         } else {
                             System.out.println("Book not found or already issued.");
                         }
@@ -115,10 +112,7 @@ public class LibraryClass {
                         System.out.print("Enter the user name: \n");
                         String returnUsername = scanner.nextLine();
 
-                        System.out.println("Enter user email: ");
-                        String returnUserEmail = scanner.nextLine();
-
-                        User returnUser = new User(returnUsername, returnUserEmail);
+                        User returnUser = new User(returnUsername);
 
                         if (newLibrary.returnBook(booksName, returnUser)) {
                             System.out.println("Book returned successfully.");
