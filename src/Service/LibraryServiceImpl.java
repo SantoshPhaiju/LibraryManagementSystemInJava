@@ -27,7 +27,16 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public Book updateBook(int index, Book book) {
+        try {
+
+        FileReader fileReader = new FileReader("src/booksdata.txt");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
         books.set(index, book);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return book;
     }
 
