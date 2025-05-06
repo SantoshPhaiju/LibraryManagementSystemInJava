@@ -59,11 +59,11 @@ public class LogImplementImp implements Logimplement {
     }
 
     @Override
-    public void DisplayAllBookLog(String booksName) {
+    public void DisplayAllBookLog(String username) {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String timestamp = date.format(formatter);
-        String logdata = new String("Library books are:-"+booksName+" at "+timestamp);
+        String logdata = username + " viewed all books" + " at " + timestamp;
         files.WriteLog(logdata);
     }
 

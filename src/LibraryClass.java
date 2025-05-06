@@ -89,6 +89,7 @@ public class LibraryClass {
 
                     case 3:
                         newLibrary.displayAllBooks();
+                        logger.DisplayAllBookLog(StaffName);
                         break;
 
                     case 4:
