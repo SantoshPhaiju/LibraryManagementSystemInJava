@@ -24,6 +24,9 @@ public class LibraryClass {
         LibraryService newLibrary = new LibraryServiceImpl();
         LogImplementImp logger = new LogImplementImp();
 
+        System.out.println("Enter the Library Staff Name: ");
+        String StaffName = scanner.nextLine();
+
         while (quit) {
             try {
                 System.out.println("""
