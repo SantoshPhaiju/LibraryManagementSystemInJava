@@ -1,5 +1,6 @@
 import Service.LibraryService;
 import Service.LibraryServiceImpl;
+import Service.LogImplementImp;
 import entities.Book;
 import entities.User;
 
@@ -21,6 +22,7 @@ public class LibraryClass {
 
         boolean quit = true;
         LibraryService newLibrary = new LibraryServiceImpl();
+        LogImplementImp logger = new LogImplementImp();
 
         while (quit) {
             try {
