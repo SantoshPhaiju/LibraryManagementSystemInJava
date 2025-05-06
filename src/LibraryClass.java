@@ -60,6 +60,7 @@ public class LibraryClass {
                         scanner.nextLine();
 
                         Book book = new Book(title, author, bookId, quantity);
+                        logger.AddLog(StaffName,book.getTitle());
                         newLibrary.addBook(book);
                         break;
 
@@ -78,6 +79,7 @@ public class LibraryClass {
                             System.out.print("Enter new book name: ");
                             String newBookName = scanner.nextLine();
                             updatedBook.setTitle(newBookName);
+                            logger.updateLog(bookNameToUpdate,newBookName,booksId);
                             System.out.println("Book title updated successfully.");
                             break;
                         } catch (NullPointerException e) {
