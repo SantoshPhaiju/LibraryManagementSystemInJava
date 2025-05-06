@@ -1,4 +1,4 @@
-package Services;
+package Service;
 
 public interface Logimplement {
     public void deleteLog(String bookName,int bookid);
