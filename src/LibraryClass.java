@@ -126,6 +126,7 @@ public class LibraryClass {
 
                         if (newLibrary.returnBook(booksName, returnUser)) {
                             System.out.println("Book returned successfully.");
+                            logger.returnLog(returnUsername,booksName);
                         } else {
                             System.out.println("Book was not issued!");
                         }
@@ -135,6 +136,7 @@ public class LibraryClass {
                         System.out.print("Enter book name to delete: ");
                         String bookToDelete = scanner.nextLine();
                         newLibrary.deleteBooks(bookToDelete);
+                        logger.deleteLog(bookToDelete, 123);
                         System.out.println("Book deleted successfully.");
                         break;
 
