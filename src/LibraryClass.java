@@ -79,7 +79,7 @@ public class LibraryClass {
                             System.out.print("Enter new book name: ");
                             String newBookName = scanner.nextLine();
                             updatedBook.setTitle(newBookName);
-                            logger.updateLog(bookNameToUpdate,newBookName,booksId);
+                            logger.updateLog(bookNameToUpdate,newBookName, updatedBook.getBookId());
                             System.out.println("Book title updated successfully.");
                             break;
                         } catch (NullPointerException e) {
