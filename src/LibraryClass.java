@@ -102,8 +102,10 @@ public class LibraryClass {
                         User newUser = new User(userName);
                         boolean issued = newLibrary.issueBook(bookName, newUser);
 
+
                         if (issued) {
                             System.out.println("Book issued successfully to " + userName);
+                            logger.issueLog(bookName, userName ,StaffName);
                         } else {
                             System.out.println("Book not found or already issued.");
                         }
