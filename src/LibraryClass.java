@@ -38,7 +38,9 @@ public class LibraryClass {
                         ===    5. Show all issued books.
                         ===    6. Return book.
                         ===    7. Delete a book.
-                        ===    8. Exit the program.
+                        ===    8. Search a book.
+                        ===    9. Log show.
+                        ===    10. Exit the program.
                         """);
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -140,7 +142,12 @@ public class LibraryClass {
                         System.out.println("Book deleted successfully.");
                         break;
 
-                    case 8:
+                    case 9:
+                        System.out.println("Show all details of the library system: \n");
+                        logger.showLog();
+                        break;
+
+                    case 10:
                         quit = false;
                         break;
 
