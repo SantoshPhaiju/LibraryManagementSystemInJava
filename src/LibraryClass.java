@@ -142,6 +142,14 @@ public class LibraryClass {
                         System.out.println("Book deleted successfully.");
                         break;
 
+                    case 8:
+                        System.out.print("Enter the Book Name to Search: ");
+                        String searchBookName = scanner.nextLine();
+                        System.out.print("Enter the Book Id to Search: ");
+                        int searchBookId = scanner.nextInt();
+                        newLibrary.searchBook(searchBookName,searchBookId);
+                        break;
+
                     case 9:
                         System.out.println("Show all details of the library system: \n");
                         logger.showLog();

@@ -26,6 +26,21 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
+    public boolean searchBook(String bookName, int booksId) {
+        boolean found = false;
+        for(Book book : books){
+            if(book.getTitle().equalsIgnoreCase(bookName) && book.getBookId() == booksId){
+                book.displayBooks();
+            }
+        }
+        if(!found){
+            System.out.println("Book name and books Id is not found!!");
+        }
+        return true;
+    }
+
+
+    @Override
     public Book updateBook(int index, Book book) {
         try {
 

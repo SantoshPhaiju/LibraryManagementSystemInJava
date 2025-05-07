@@ -23,6 +23,8 @@ public interface LibraryService {
 
     public void displayAllBooks();
 
+    boolean searchBook(String bookName, int booksId);
+
     public void displayIssuedBook();
 
     List<Book> deleteBooks(String booksName);
