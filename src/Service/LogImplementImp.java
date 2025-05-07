@@ -98,6 +98,14 @@ public class LogImplementImp implements Logimplement {
 
     @Override
     public void showLog() {
-
+        try(BufferedReader br = new BufferedReader(new FileReader("log.data"))){
+            String line;
+            while ((line = br.readLine()) != null){
+                System.out.println(line);
+                br.close();
+            }
+        }catch (IOException e){
+            System.out.println("Message: "+e.getMessage());
+        }
     }
 }
