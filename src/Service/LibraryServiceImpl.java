@@ -160,9 +160,6 @@ public class LibraryServiceImpl implements LibraryService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        for (Book book : books) {
-//            System.out.println("BookId: " + book.getBookId() + " Title: " + book.getTitle() + " Quantity: " + book.getQuantity() + " Author: " + book.getAuthor());
-//        }
     }
 
     public void displayIssuedBook() {

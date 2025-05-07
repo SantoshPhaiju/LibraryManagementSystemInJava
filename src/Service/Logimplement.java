@@ -1,7 +1,7 @@
 package Service;
 
 public interface Logimplement {
-    public void deleteLog(String bookName,int bookid);
+    public void deleteLog(String bookName);
     public void AddLog(String UserName,String bookName);
     public void issueLog(String bookName,String userName,String LibraryEmployeeName);
     public void returnLog(String userName,String bookName);
