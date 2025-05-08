@@ -36,29 +36,11 @@ public class LogImplementImp implements Logimplement {
     FileHandlingServices files = new FileHandlingServices();
     @Override
     public void AddLog(String userName,String bookName){
-//        LocalDateTime data = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        String timestamp = data.format(formatter);
-//        String logData = new String(userName.toUpperCase() + " added the book: "+bookName+" at "+timestamp);
-//        files.WriteLog(logData);
-
-        boolean remove = false;
-        for(int i =0;i< books.size();i++){
-            if(books.get(i).getTitle().equalsIgnoreCase(bookName)){
-                books.remove(i);
-                remove = true;
-                break;
-            }
-        }
-        if(!remove) {
-            LocalDateTime date = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String timestamp = date.format(formatter);
-            String datalog = new String("Delete book Name " + bookName.toUpperCase() + " at " + timestamp);
-            files.WriteLog(datalog);
-        }else {
-            System.out.println("Book is not found!!");
-        }
+        LocalDateTime data = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String timestamp = data.format(formatter);
+        String logData = new String(userName.toUpperCase() + " added the book: "+bookName+" at "+timestamp);
+        files.WriteLog(logData);
     }
 
     @Override

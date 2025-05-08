@@ -84,4 +84,12 @@ public class Book {
         String[] parts = line.trim().split("\\s*,\\s*");
         return new Book(parts[1], parts[2], Integer.parseInt(parts[0]), Integer.parseInt(parts[3]));
     }
+
+    public void displayBookDetails() {
+        System.out.println("BookId: " + bookId);
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Quantity: " + quantity);
+        System.out.println("Issued: " + isIssued);
+    }
 }

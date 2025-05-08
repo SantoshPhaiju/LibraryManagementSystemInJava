@@ -11,22 +11,18 @@ public class FileHandlingServices {
             System.out.println("Message: "+e.getMessage());
         }
     }
+
     public void ReadLog(){
         BufferedReader br = null;
-        try{
+        try {
             br = new BufferedReader(new FileReader("log.data"));
             String line;
             while((line = br.readLine()) != null){
                 System.out.println(line);
             }
+            br.close();
         }catch (IOException e){
-            System.out.println("Message: "+e.getMessage());
-        }finally {
-            try {
-                while (br != null) br.close();
-            }catch (IOException e){
-                System.out.println("Close Message: "+e.getMessage());
-            }
+            System.out.println("Message: " + e.getMessage());
         }
     }
 }

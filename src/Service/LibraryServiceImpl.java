@@ -30,7 +30,8 @@ public class LibraryServiceImpl implements LibraryService {
         boolean found = false;
         for(Book book : books){
             if(book.getTitle().equalsIgnoreCase(bookName) && book.getBookId() == booksId){
-                book.displayBooks();
+                book.displayBookDetails();
+                found = true;
             }
         }
         if(!found){

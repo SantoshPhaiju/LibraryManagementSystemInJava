@@ -137,7 +137,7 @@ public class LibraryClass {
                     case 7:
                         System.out.print("Enter book name to delete: ");
                         String bookToDelete = scanner.nextLine();
-                        newLibrary.deleteBooks(bookToDelete);
+                        newLibrary.deleteBook(bookToDelete);
                         logger.deleteLog(bookToDelete);
                         System.out.println("Book deleted successfully.");
                         break;
@@ -151,7 +151,7 @@ public class LibraryClass {
                         break;
 
                     case 9:
-                        System.out.println("Show all details of the library system: \n");
+                        System.out.println("Show all details of the library system: ");
                         logger.showLog();
                         break;
 
