@@ -1,12 +1,15 @@
 package ui;
 
+import dao.BookDaoImpl;
 import models.Book;
+import utils.BookIdGenerator;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddBookForm extends JPanel {
+    BookDaoImpl bookDao = new BookDaoImpl();
 
     public AddBookForm() {
 
@@ -41,11 +44,10 @@ public class AddBookForm extends JPanel {
                 String bookName = bookNameField.getText();
                 String author = authorField.getText();
                 int bookQuantity = Integer.parseInt(bookQuantityField.getText());
-                Book book = new Book(bookName, author, 1, bookQuantity);
+                String bookId = BookIdGenerator.generate(bookName);
+                Book book = new Book(bookName, author, bookId, bookQuantity);
 
-
-
-                System.out.println(book.getTitle());
+                bookDao.addBook(book);
                 System.out.println("book created.");
             }
         });

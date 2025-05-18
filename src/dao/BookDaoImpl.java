@@ -16,7 +16,7 @@ public class BookDaoImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
-            statement.setInt(3, book.getBookId());
+            statement.setString(3, book.getBookId());
             statement.setInt(4, book.getQuantity());
             int rowsAffected = statement.executeUpdate();
 
