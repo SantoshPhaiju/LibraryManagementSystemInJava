@@ -5,6 +5,7 @@ import models.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BookDaoImpl implements BookDAO {
@@ -48,6 +49,15 @@ public class BookDaoImpl implements BookDAO {
     @Override
     public void displayAllBooks() {
 
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM books";
+            PreparedStatement statement = connection.prepareStatement(query);
+           ResultSet resultSet = statement.executeQuery();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
