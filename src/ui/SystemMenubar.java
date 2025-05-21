@@ -10,12 +10,18 @@ public class SystemMenubar extends JMenuBar {
         JMenu deleteBook = new JMenu("Delete Book");
         JMenu updateBook = new JMenu("Update Book");
         JMenu displayAllBooks = new JMenu("Display All Books");
+        JMenuItem displayBooks = new JMenuItem("Show All Books");
 
-        displayAllBooks.addActionListener(new ActionListener() {
+        displayBooks.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 systemFrame.getContentPane().removeAll();
 
+                JPanel allBooksPanel = new ViewAllBooks(); // ✅ Add your custom panel here
+                systemFrame.getContentPane().add(allBooksPanel);
+
+                systemFrame.revalidate();
+                systemFrame.repaint();
             }
         });
 
@@ -23,5 +29,6 @@ public class SystemMenubar extends JMenuBar {
         add(deleteBook);
         add(updateBook);
         add(displayAllBooks);
+        displayAllBooks.add(displayBooks);
     }
 }

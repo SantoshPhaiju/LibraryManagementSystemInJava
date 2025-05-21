@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookDaoImpl implements BookDAO {
     @Override
@@ -47,18 +49,34 @@ public class BookDaoImpl implements BookDAO {
     }
 
     @Override
-    public void displayAllBooks() {
+    public List<Book> displayAllBooks() {
+        List<Book> books = new ArrayList<>(); // Step 1
 
         try {
             Connection connection = DatabaseConnection.getConnection();
             String query = "SELECT * FROM books";
             PreparedStatement statement = connection.prepareStatement(query);
-           ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
+            while (resultSet.next()) { // Step 2
+                Book book = new Book(); // Step 3
+                book.setBookId("bookId");
+                book.setTitle(resultSet.getString("title"));
+                book.setAuthor(resultSet.getString("author"));
+                book.setQuantity(resultSet.getInt("quantity"));
+                books.add(book); // Step 4
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        return books; // Step 5
     }
+
 
     @Override
     public Book getSingleBookById(int bookId) {

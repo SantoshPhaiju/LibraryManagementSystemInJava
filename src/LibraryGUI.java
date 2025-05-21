@@ -11,7 +11,7 @@ public class LibraryGUI {
     public static void main(String[] args) {
         JFrame systemFrame = new SystemGUI();
 
-        JMenuBar systemMenu = new SystemMenubar();
+        JMenuBar systemMenu = new SystemMenubar(systemFrame);
         systemFrame.setJMenuBar(systemMenu);
 
         AddBookForm addBookForm = new AddBookForm();
