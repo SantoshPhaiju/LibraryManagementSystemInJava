@@ -37,10 +37,11 @@ public class ViewAllBooks extends JPanel {
         System.out.println(Arrays.deepToString(data));
 
         // Create JTable
-        JTable table = new JTable(new DefaultTableModel(data, columns));
+        JTable table = new JTable(data, columns);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(20, 60, 500, 300); // Adjust size and position
 
         add(scrollPane);
+        add(table);
     }
 }

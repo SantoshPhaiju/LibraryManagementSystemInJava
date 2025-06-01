@@ -40,12 +40,44 @@ public class BookDaoImpl implements BookDAO {
 
     @Override
     public void deleteBook(int bookId) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM books WHERE bookId = ?");
+            statement.setInt(1, bookId);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Book deleted successfully with id " + bookId);
+            } else {
+                System.out.println("Error deleting book with id " + bookId);
+            }
 
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void updateBook(Book book) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
 
+            String query = "UPDATE books SET title = ?, author = ?, quantity = ? WHERE bookId = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setInt(3, book.getQuantity());
+            stmt.setString(4, book.getBookId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Book updated successfully!");
+            } else {
+                System.out.println("Error updating book!");
+            }
+        }
+        catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

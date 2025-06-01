@@ -15,13 +15,13 @@ public class SystemMenubar extends JMenuBar {
         displayBooks.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                systemFrame.getContentPane().removeAll();
+//                systemFrame.getContentPane().removeAll();
 
                 JPanel allBooksPanel = new ViewAllBooks(); // ✅ Add your custom panel here
-                systemFrame.getContentPane().add(allBooksPanel);
+                systemFrame.add(allBooksPanel);
 
-                systemFrame.revalidate();
-                systemFrame.repaint();
+//                systemFrame.revalidate();
+//                systemFrame.repaint();
             }
         });
 
