@@ -32,6 +32,20 @@ public class AddBookForm extends JPanel {
         JTextField bookQuantityField = new JTextField();
         bookQuantityField.setBounds(20, 190, 250, 30);
 
+        JButton submitButton = getJButton(bookNameField, authorField, bookQuantityField);
+
+        add(submitButton);
+        add(bookNameLabel);
+        add(bookNameField);
+        add(authorLabel);
+        add(authorField);
+        add(bookQuantityLabel);
+        add(bookQuantityField);
+
+
+    }
+
+    private JButton getJButton(JTextField bookNameField, JTextField authorField, JTextField bookQuantityField) {
         JButton submitButton = new JButton("Submit");
         submitButton.setBounds(20, 230, 100, 30);
 
@@ -49,19 +63,13 @@ public class AddBookForm extends JPanel {
 
                 bookDao.addBook(book);
                 System.out.println("book created.");
+                // Clear the text fields
+                bookNameField.setText("");
+                authorField.setText("");
+                bookQuantityField.setText("");
             }
         });
-
-
-        add(submitButton);
-        add(bookNameLabel);
-        add(bookNameField);
-        add(authorLabel);
-        add(authorField);
-        add(bookQuantityLabel);
-        add(bookQuantityField);
-
-
+        return submitButton;
     }
 
 }
