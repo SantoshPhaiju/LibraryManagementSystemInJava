@@ -4,16 +4,10 @@ import ui.SystemGUI;
 import ui.SystemMenubar;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class LibraryGUI {
     public static void main(String[] args) {
         JFrame systemFrame = new SystemGUI();
-
-        JMenuBar systemMenu = new SystemMenubar(systemFrame);
-        systemFrame.setJMenuBar(systemMenu);
-
         AddBookForm addBookForm = new AddBookForm();
 
         addBookForm.setBounds(0, 0, 400, 400);

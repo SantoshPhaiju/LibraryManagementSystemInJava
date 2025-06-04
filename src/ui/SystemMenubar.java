@@ -1,8 +1,6 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class SystemMenubar extends JMenuBar {
     public SystemMenubar(JFrame systemFrame) {
@@ -11,20 +9,6 @@ public class SystemMenubar extends JMenuBar {
         JMenu updateBook = new JMenu("Update Book");
         JMenu displayAllBooks = new JMenu("Display All Books");
         JMenuItem displayBooks = new JMenuItem("Show All Books");
-
-
-        displayBooks.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                systemFrame.getContentPane().removeAll();
-
-                JPanel allBooksPanel = new ViewAllBooks(); // ✅ Add your custom panel here
-                systemFrame.add(allBooksPanel);
-
-//                systemFrame.revalidate();
-//                systemFrame.repaint();
-            }
-        });
 
         add(addBook);
         add(deleteBook);
