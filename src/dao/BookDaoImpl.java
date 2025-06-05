@@ -24,15 +24,12 @@ public class BookDaoImpl implements BookDAO {
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
-
                 System.out.println("Book added successfully!");
             } else {
                 System.out.println("Error adding book!");
             }
             connection.close();
             statement.close();
-
-
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
