@@ -32,6 +32,11 @@ public class LibraryGUI extends JFrame {
             tabbedPane.addTab("Add Book", addBookPanel);
         }
 
+        JPanel updateBookPanel = createUpdateBookPanel();
+        if (tabbedPane != null) {
+            tabbedPane.addTab("Update Book", updateBookPanel);
+        }
+
         add(tabbedPane);
     }
 
@@ -42,7 +47,6 @@ public class LibraryGUI extends JFrame {
         bookDao = new BookDaoImpl();
         List<Book> data = bookDao.displayAllBooks();
 
-        // Convert List<Book> to Object[][]
         Object[][] tableData = new Object[data.size()][5];  // 5 columns
 
         for (int i = 0; i < data.size(); i++) {
@@ -55,19 +59,24 @@ public class LibraryGUI extends JFrame {
         }
 
         JTable table = new JTable(tableData, columns);
-        table.setBounds(0, 0, 750, 750);
         JScrollPane scrollPane = new JScrollPane(table);
-
         panel.add(scrollPane);
 
         return panel;
     }
 
     private JPanel createAddBookPanel() {
-        AddBookForm addBookForm = new AddBookForm();
-        return addBookForm;
+        return new AddBookForm();
     }
 
+    private JPanel createUpdateBookPanel() {
+        JPanel panel = new JPanel();
+        JLabel pageLabel = new JLabel("Update Book Form");
+        pageLabel.setBounds(0, 0, 750, 50);
+        panel.add(pageLabel);
+
+        return panel;
+    }
 
 
     public static void main(String[] args) {
