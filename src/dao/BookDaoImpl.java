@@ -89,7 +89,8 @@ public class BookDaoImpl implements BookDAO {
 
             while (resultSet.next()) { // Step 2
                 Book book = new Book(); // Step 3
-                book.setBookId("bookId");
+                book.setBookId(resultSet.getString("bookId"));
+                book.setId(resultSet.getInt("id"));
                 book.setTitle(resultSet.getString("title"));
                 book.setAuthor(resultSet.getString("author"));
                 book.setQuantity(resultSet.getInt("quantity"));

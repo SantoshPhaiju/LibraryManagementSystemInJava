@@ -39,7 +39,7 @@ public class LibraryGUI extends JFrame {
 
         booksPanel.setLayout(new BorderLayout());
 
-        String[] columnNames = {"Title", "Author", "BookId", "Quantity"};
+        String[] columnNames = {"Id", "Title", "Author", "BookId", "Quantity"};
         booksModel = new DefaultTableModel(null, columnNames);
         table = new JTable(booksModel);
 
@@ -71,6 +71,7 @@ public class LibraryGUI extends JFrame {
         List<Book> data = bookDao.displayAllBooks();
         for (Book book : data) {
             Object[] row = {
+                    book.getId(),
                     book.getTitle(),
                     book.getAuthor(),
                     book.getBookId(),

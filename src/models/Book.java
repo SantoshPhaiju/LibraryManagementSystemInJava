@@ -2,13 +2,21 @@ package models;
 
 public class Book {
     private String title;
-
+    private int id;
     private String author;
     private String bookId;
     private int quantity;
 
 
     public Book() {}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Book(String title, String author, String bookId, int quantity) {
         this.title = title;
