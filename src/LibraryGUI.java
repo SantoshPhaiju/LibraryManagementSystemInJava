@@ -4,6 +4,7 @@ import ui.AddBookForm;
 import ui.SystemGUI;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
@@ -16,8 +17,8 @@ public class LibraryGUI extends JFrame {
 
     public LibraryGUI() {
         bookDao = new BookDaoImpl();
-        loadBooks();
         initializeGui();
+        loadData();
     }
 
     private void initializeGui() {
@@ -28,16 +29,43 @@ public class LibraryGUI extends JFrame {
         tabbedPane = new JTabbedPane();
 
         JPanel displayAllBooksPanel = createDisplayAllBooksPanel();
-        if (tabbedPane != null) {
-            tabbedPane.addTab("Display All Books", displayAllBooksPanel);
-        }
+        tabbedPane.addTab("Display All Books", displayAllBooksPanel);
 
         JPanel addBookPanel = createAddBookPanel();
-        if (tabbedPane != null) {
-            tabbedPane.addTab("Add Book", addBookPanel);
-        }
+        tabbedPane.addTab("Add Book", addBookPanel);
+
+        JPanel booksPanel = createBooksPanel();
+        tabbedPane.addTab("Books", booksPanel);
 
         add(tabbedPane);
+    }
+
+    private JPanel createBooksPanel() {
+        JPanel booksPanel = new JPanel();
+
+        booksPanel.setLayout(new BorderLayout());
+
+        String[] columnNames = {"BookId", "Title", "Author", "Quantity"};
+        booksModel = new DefaultTableModel(null, columnNames);
+        table = new JTable(booksModel);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        JPanel buttonsPanel = new JPanel(new FlowLayout());
+        JButton addBookButton = new JButton("Add Book");
+        JButton updateBookButton = new JButton("Update Book");
+        JButton deleteBookButton = new JButton("Delete Book");
+
+        buttonsPanel.add(addBookButton);
+        buttonsPanel.add(updateBookButton);
+        buttonsPanel.add(deleteBookButton);
+
+        booksPanel.add(scrollPane, BorderLayout.CENTER);
+        booksPanel.add(buttonsPanel, BorderLayout.SOUTH);
+
+
+
+        return  booksPanel;
     }
 
     private JPanel createDisplayAllBooksPanel() {
