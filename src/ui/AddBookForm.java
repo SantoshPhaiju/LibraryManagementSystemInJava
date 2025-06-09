@@ -5,6 +5,7 @@ import models.Book;
 import utils.BookIdGenerator;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -60,6 +61,8 @@ public class AddBookForm extends JPanel {
                 int bookQuantity = Integer.parseInt(bookQuantityField.getText());
                 String bookId = BookIdGenerator.generate(bookName);
                 Book book = new Book(bookName, author, bookId, bookQuantity);
+
+//                {"Title", "Author", "BookId", "Quantity", "Id"}
 
                 bookDao.addBook(book);
                 System.out.println("book created.");

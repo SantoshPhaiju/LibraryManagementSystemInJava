@@ -4,14 +4,19 @@ import ui.AddBookForm;
 import ui.SystemGUI;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
 public class LibraryGUI extends JFrame {
     private BookDaoImpl bookDao;
     private JTabbedPane tabbedPane;
+    private JTable table;
+    private DefaultTableModel booksModel;
 
     public LibraryGUI() {
+        bookDao = new BookDaoImpl();
+        loadBooks();
         initializeGui();
     }
 
@@ -32,11 +37,6 @@ public class LibraryGUI extends JFrame {
             tabbedPane.addTab("Add Book", addBookPanel);
         }
 
-        JPanel updateBookPanel = createUpdateBookPanel();
-        if (tabbedPane != null) {
-            tabbedPane.addTab("Update Book", updateBookPanel);
-        }
-
         add(tabbedPane);
     }
 
@@ -44,10 +44,9 @@ public class LibraryGUI extends JFrame {
         JPanel panel = new JPanel();
 
         String[] columns = {"Title", "Author", "BookId", "Quantity", "Id"};
-        bookDao = new BookDaoImpl();
         List<Book> data = bookDao.displayAllBooks();
 
-        Object[][] tableData = new Object[data.size()][5];  // 5 columns
+        Object[][] tableData = new Object[data.size()][5];
 
         for (int i = 0; i < data.size(); i++) {
             Book book = data.get(i);
@@ -58,7 +57,7 @@ public class LibraryGUI extends JFrame {
             tableData[i][4] = book.getBookId();
         }
 
-        JTable table = new JTable(tableData, columns);
+        table = new JTable(tableData, columns);
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane);
 
@@ -76,6 +75,24 @@ public class LibraryGUI extends JFrame {
         panel.add(pageLabel);
 
         return panel;
+    }
+
+    private void loadData() {
+        loadBooks();
+    }
+
+    private void loadBooks() {
+        booksModel.setRowCount(0);
+        List<Book> data = bookDao.displayAllBooks();
+        for (Book book: books) {
+            Object[] row = {
+                    book.getTitle(),
+                    book.getAuthor(),
+                    book.getBookId(),
+                    book.getQuantity(),
+            };
+            booksModel.addRow(row);
+        }
     }
 
 
