@@ -28,9 +28,6 @@ public class LibraryGUI extends JFrame {
         setLocationRelativeTo(null);
         tabbedPane = new JTabbedPane();
 
-        JPanel displayAllBooksPanel = createDisplayAllBooksPanel();
-        tabbedPane.addTab("Display All Books", displayAllBooksPanel);
-
         JPanel booksPanel = createBooksPanel();
         tabbedPane.addTab("Books", booksPanel);
 
@@ -63,30 +60,6 @@ public class LibraryGUI extends JFrame {
 
 
         return  booksPanel;
-    }
-
-    private JPanel createDisplayAllBooksPanel() {
-        JPanel panel = new JPanel();
-
-        String[] columns = {"Title", "Author", "BookId", "Quantity", "Id"};
-        List<Book> data = bookDao.displayAllBooks();
-
-        Object[][] tableData = new Object[data.size()][5];
-
-        for (int i = 0; i < data.size(); i++) {
-            Book book = data.get(i);
-            tableData[i][0] = book.getTitle();
-            tableData[i][1] = book.getAuthor();
-            tableData[i][2] = book.getBookId();
-            tableData[i][3] = book.getQuantity();
-            tableData[i][4] = book.getBookId();
-        }
-
-        table = new JTable(tableData, columns);
-        JScrollPane scrollPane = new JScrollPane(table);
-        panel.add(scrollPane);
-
-        return panel;
     }
 
     private JPanel createUpdateBookPanel() {
