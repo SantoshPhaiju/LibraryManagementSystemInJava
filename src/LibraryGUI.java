@@ -84,7 +84,7 @@ public class LibraryGUI extends JFrame {
     private void loadBooks() {
         booksModel.setRowCount(0);
         List<Book> data = bookDao.displayAllBooks();
-        for (Book book: books) {
+        for (Book book : data) {
             Object[] row = {
                     book.getTitle(),
                     book.getAuthor(),
