@@ -31,9 +31,6 @@ public class LibraryGUI extends JFrame {
         JPanel displayAllBooksPanel = createDisplayAllBooksPanel();
         tabbedPane.addTab("Display All Books", displayAllBooksPanel);
 
-        JPanel addBookPanel = createAddBookPanel();
-        tabbedPane.addTab("Add Book", addBookPanel);
-
         JPanel booksPanel = createBooksPanel();
         tabbedPane.addTab("Books", booksPanel);
 
@@ -90,10 +87,6 @@ public class LibraryGUI extends JFrame {
         panel.add(scrollPane);
 
         return panel;
-    }
-
-    private JPanel createAddBookPanel() {
-        return new AddBookForm();
     }
 
     private JPanel createUpdateBookPanel() {
