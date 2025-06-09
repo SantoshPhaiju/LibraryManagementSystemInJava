@@ -62,15 +62,6 @@ public class LibraryGUI extends JFrame {
         return  booksPanel;
     }
 
-    private JPanel createUpdateBookPanel() {
-        JPanel panel = new JPanel();
-        JLabel pageLabel = new JLabel("Update Book Form");
-        pageLabel.setBounds(0, 0, 750, 50);
-        panel.add(pageLabel);
-
-        return panel;
-    }
-
     private void loadData() {
         loadBooks();
     }
