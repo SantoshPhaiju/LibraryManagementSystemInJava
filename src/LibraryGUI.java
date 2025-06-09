@@ -42,7 +42,7 @@ public class LibraryGUI extends JFrame {
 
         booksPanel.setLayout(new BorderLayout());
 
-        String[] columnNames = {"BookId", "Title", "Author", "Quantity"};
+        String[] columnNames = {"Title", "Author", "BookId", "Quantity"};
         booksModel = new DefaultTableModel(null, columnNames);
         table = new JTable(booksModel);
 
