@@ -87,14 +87,14 @@ public class BookDaoImpl implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()) { // Step 2
-                Book book = new Book(); // Step 3
+            while (resultSet.next()) {
+                Book book = new Book();
                 book.setBookId(resultSet.getString("bookId"));
                 book.setId(resultSet.getInt("id"));
                 book.setTitle(resultSet.getString("title"));
                 book.setAuthor(resultSet.getString("author"));
                 book.setQuantity(resultSet.getInt("quantity"));
-                books.add(book); // Step 4
+                books.add(book);
             }
 
             resultSet.close();
@@ -104,7 +104,7 @@ public class BookDaoImpl implements BookDAO {
             System.out.println(e.getMessage());
         }
 
-        return books; // Step 5
+        return books;
     }
 
 

@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class LibraryGUI extends JFrame {
@@ -57,7 +59,12 @@ public class LibraryGUI extends JFrame {
         booksPanel.add(scrollPane, BorderLayout.CENTER);
         booksPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
+        // Add book button action listener
+        addBookButton.addActionListener(e -> {
 
+            showAddBookDialog();
+
+        });
 
         return  booksPanel;
     }
@@ -79,6 +86,41 @@ public class LibraryGUI extends JFrame {
             };
             booksModel.addRow(row);
         }
+    }
+
+    private void showAddBookDialog() {
+        JDialog dialog = new JDialog(this, "Add Book", true);
+
+        dialog.setLayout(new GridLayout(6, 2));
+
+        JTextField titleField = new JTextField();
+        JTextField authorField = new JTextField();
+        JTextField isbnField = new JTextField();
+        JTextField categoryField = new JTextField();
+        JTextField copiesField = new JTextField();
+
+        dialog.add(new JLabel("Title:"));
+        dialog.add(titleField);
+        dialog.add(new JLabel("Author:"));
+        dialog.add(authorField);
+        dialog.add(new JLabel("ISBN:"));
+        dialog.add(isbnField);
+        dialog.add(new JLabel("Category:"));
+        dialog.add(categoryField);
+        dialog.add(new JLabel("Total Copies:"));
+        dialog.add(copiesField);
+
+        JButton saveButton = new JButton("Save");
+        JButton cancelButton = new JButton("Cancel");
+
+        dialog.add(saveButton);
+        dialog.add(cancelButton);
+
+        dialog.setSize(400, 400);
+
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
     }
 
 
