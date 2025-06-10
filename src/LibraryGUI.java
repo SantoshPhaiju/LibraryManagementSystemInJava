@@ -2,6 +2,7 @@ import dao.BookDaoImpl;
 import models.Book;
 import ui.AddBookForm;
 import ui.SystemGUI;
+import utils.BookIdGenerator;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -61,9 +62,7 @@ public class LibraryGUI extends JFrame {
 
         // Add book button action listener
         addBookButton.addActionListener(e -> {
-
             showAddBookDialog();
-
         });
 
         return  booksPanel;
@@ -95,20 +94,14 @@ public class LibraryGUI extends JFrame {
 
         JTextField titleField = new JTextField();
         JTextField authorField = new JTextField();
-        JTextField isbnField = new JTextField();
-        JTextField categoryField = new JTextField();
-        JTextField copiesField = new JTextField();
+        JTextField quantityField = new JTextField();
 
         dialog.add(new JLabel("Title:"));
         dialog.add(titleField);
         dialog.add(new JLabel("Author:"));
         dialog.add(authorField);
-        dialog.add(new JLabel("ISBN:"));
-        dialog.add(isbnField);
-        dialog.add(new JLabel("Category:"));
-        dialog.add(categoryField);
-        dialog.add(new JLabel("Total Copies:"));
-        dialog.add(copiesField);
+        dialog.add(new JLabel("Quantity:"));
+        dialog.add(quantityField);
 
         JButton saveButton = new JButton("Save");
         JButton cancelButton = new JButton("Cancel");
@@ -116,7 +109,22 @@ public class LibraryGUI extends JFrame {
         dialog.add(saveButton);
         dialog.add(cancelButton);
 
-        dialog.setSize(400, 400);
+        saveButton.addActionListener(e -> {
+            String title = titleField.getText();
+            String author = authorField.getText();
+            int quantity = Integer.parseInt(quantityField.getText());
+
+            String bookId = BookIdGenerator.generate(title);
+            Book newBook = new Book(title, author, bookId, quantity);
+            bookDao.addBook(newBook);
+            loadData();
+
+            JOptionPane.showMessageDialog(this, "Book added");
+        });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        dialog.setSize(600, 400);
 
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
