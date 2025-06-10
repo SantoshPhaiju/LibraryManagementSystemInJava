@@ -36,21 +36,24 @@ public class BookDaoImpl implements BookDAO {
     }
 
     @Override
-    public void deleteBook(int bookId) {
+    public boolean deleteBook(int bookId) {
         try {
             Connection connection = DatabaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM books WHERE bookId = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM books WHERE id = ?");
             statement.setInt(1, bookId);
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Book deleted successfully with id " + bookId);
+                return true;
             } else {
                 System.out.println("Error deleting book with id " + bookId);
+                return false;
             }
 
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 
     @Override
