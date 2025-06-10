@@ -118,11 +118,17 @@ public class LibraryGUI extends JFrame {
         dialog.add(cancelButton);
 
         saveButton.addActionListener(e -> {
-            saveBookToDb(titleField, authorField, quantityField, bookDao);
-            loadData();
+            boolean isSuccess = saveBookToDb(titleField, authorField, quantityField, bookDao);
+            if(isSuccess) {
+                loadData();
 
-            JOptionPane.showMessageDialog(this, "New Book created successfully");
-            dialog.dispose();
+                JOptionPane.showMessageDialog(this, "New Book created successfully");
+                dialog.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Book creation failed");
+                dialog.dispose();
+            }
+
         });
 
         cancelButton.addActionListener(e -> dialog.dispose());
@@ -133,14 +139,14 @@ public class LibraryGUI extends JFrame {
         dialog.setVisible(true);
     }
 
-    private static void saveBookToDb(JTextField titleField, JTextField authorField, JTextField quantityField, BookDaoImpl bookDao) {
+    private static boolean saveBookToDb(JTextField titleField, JTextField authorField, JTextField quantityField, BookDaoImpl bookDao) {
         String title = titleField.getText();
         String author = authorField.getText();
         int quantity = Integer.parseInt(quantityField.getText());
 
         String bookId = BookIdGenerator.generate(title);
         Book newBook = new Book(title, author, bookId, quantity);
-        bookDao.addBook(newBook);
+        return bookDao.addBook(newBook);
     }
 
     private void showUpdateBookDialog() {

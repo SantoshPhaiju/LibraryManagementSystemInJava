@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BookDaoImpl implements BookDAO {
     @Override
-    public void addBook(Book book) {
+    public boolean addBook(Book book) {
         try {
             Connection connection = DatabaseConnection.getConnection();
             String query = "INSERT INTO books (title, author, bookId, quantity) VALUES (?, ?, ?, ?)";
@@ -25,14 +25,20 @@ public class BookDaoImpl implements BookDAO {
 
             if (rowsAffected > 0) {
                 System.out.println("Book added successfully!");
+                connection.close();
+                statement.close();
+                return true;
             } else {
                 System.out.println("Error adding book!");
+                connection.close();
+                statement.close();
+                return false;
             }
-            connection.close();
-            statement.close();
+
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 
     @Override
