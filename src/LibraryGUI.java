@@ -69,6 +69,10 @@ public class LibraryGUI extends JFrame {
             showUpdateBookDialog();
         });
 
+        deleteBookButton.addActionListener(e -> {
+            deleteBookDialog();
+        });
+
         return  booksPanel;
     }
 
@@ -145,6 +149,7 @@ public class LibraryGUI extends JFrame {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a book to edit");
+            return;
         }
 
         String title = table.getValueAt(selectedRow, 1).toString();
@@ -186,6 +191,24 @@ public class LibraryGUI extends JFrame {
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+    }
+
+    private void deleteBookDialog() {
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this book?");
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a book to delete");
+            return;
+        }
+        int bookId = Integer.parseInt(booksModel.getValueAt(selectedRow, 0).toString());
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (bookDao.deleteBook(bookId)) {
+                JOptionPane.showMessageDialog(this, "Book deleted successfully!");
+                loadBooks();
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to delete book.");
+            }
+        }
     }
 
     public static void main(String[] args) {
