@@ -119,10 +119,12 @@ public class LibraryGUI extends JFrame {
             bookDao.addBook(newBook);
             loadData();
 
-            JOptionPane.showMessageDialog(this, "Book added");
+            JOptionPane.showMessageDialog(this, "New Book created successfully");
+            dialog.dispose();
         });
 
         cancelButton.addActionListener(e -> dialog.dispose());
+
 
         dialog.setSize(600, 400);
 
