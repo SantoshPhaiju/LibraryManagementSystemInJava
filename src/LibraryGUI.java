@@ -65,6 +65,10 @@ public class LibraryGUI extends JFrame {
             showAddBookDialog();
         });
 
+        updateBookButton.addActionListener(e -> {
+            showUpdateBookDialog();
+        });
+
         return  booksPanel;
     }
 
@@ -90,7 +94,7 @@ public class LibraryGUI extends JFrame {
     private void showAddBookDialog() {
         JDialog dialog = new JDialog(this, "Add Book", true);
 
-        dialog.setLayout(new GridLayout(6, 2));
+        dialog.setLayout(new GridLayout(4, 2));
 
         JTextField titleField = new JTextField();
         JTextField authorField = new JTextField();
@@ -110,13 +114,7 @@ public class LibraryGUI extends JFrame {
         dialog.add(cancelButton);
 
         saveButton.addActionListener(e -> {
-            String title = titleField.getText();
-            String author = authorField.getText();
-            int quantity = Integer.parseInt(quantityField.getText());
-
-            String bookId = BookIdGenerator.generate(title);
-            Book newBook = new Book(title, author, bookId, quantity);
-            bookDao.addBook(newBook);
+            saveBookToDb(titleField, authorField, quantityField, bookDao);
             loadData();
 
             JOptionPane.showMessageDialog(this, "New Book created successfully");
@@ -127,12 +125,68 @@ public class LibraryGUI extends JFrame {
 
 
         dialog.setSize(600, 400);
-
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
-
     }
 
+    private static void saveBookToDb(JTextField titleField, JTextField authorField, JTextField quantityField, BookDaoImpl bookDao) {
+        String title = titleField.getText();
+        String author = authorField.getText();
+        int quantity = Integer.parseInt(quantityField.getText());
+
+        String bookId = BookIdGenerator.generate(title);
+        Book newBook = new Book(title, author, bookId, quantity);
+        bookDao.addBook(newBook);
+    }
+
+    private void showUpdateBookDialog() {
+        JDialog dialog = new JDialog(this, "Update Book", true);
+        dialog.setLayout(new GridLayout(4, 2));
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a book to edit");
+        }
+
+        String title = table.getValueAt(selectedRow, 1).toString();
+        String author = table.getValueAt(selectedRow, 2).toString();
+        String bookId = table.getValueAt(selectedRow, 3).toString();
+        int quantity = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
+
+
+        JTextField titleField = new JTextField();
+        titleField.setText(title);
+        JTextField authorField = new JTextField();
+        authorField.setText(author);
+        JTextField quantityField = new JTextField();
+        quantityField.setText(String.valueOf(quantity));
+        dialog.add(new JLabel("Title:"));
+        dialog.add(titleField);
+        dialog.add(new JLabel("Author:"));
+        dialog.add(authorField);
+        dialog.add(new JLabel("Quantity:"));
+        dialog.add(quantityField);
+        JButton saveButton = new JButton("Save");
+        JButton cancelButton = new JButton("Cancel");
+        dialog.add(saveButton);
+        dialog.add(cancelButton);
+
+        saveButton.addActionListener(e -> {
+            Book updatedBook = new Book(titleField.getText(), authorField.getText(), bookId, Integer.parseInt(quantityField.getText()));
+
+            bookDao.updateBook(updatedBook);
+            loadData();
+            JOptionPane.showMessageDialog(null, "Your book has been updated");
+            dialog.dispose();
+        });
+
+        cancelButton.addActionListener(e -> {
+            dialog.dispose();
+        });
+
+        dialog.setSize(600, 400);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
 
     public static void main(String[] args) {
         new LibraryGUI().setVisible(true);

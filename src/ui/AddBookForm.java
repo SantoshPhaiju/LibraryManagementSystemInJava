@@ -56,15 +56,6 @@ public class AddBookForm extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Submit button clicked");
 
-                String bookName = bookNameField.getText();
-                String author = authorField.getText();
-                int bookQuantity = Integer.parseInt(bookQuantityField.getText());
-                String bookId = BookIdGenerator.generate(bookName);
-                Book book = new Book(bookName, author, bookId, bookQuantity);
-
-//                {"Title", "Author", "BookId", "Quantity", "Id"}
-
-                bookDao.addBook(book);
                 System.out.println("book created.");
                 // Clear the text fields
                 bookNameField.setText("");
