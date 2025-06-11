@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDAO {
     @Override
-    public boolean createUser(User user) throws SQLException {
+    public boolean createUser(User user) {
         try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (username, email) VALUES (?,?)")) {
 
             preparedStatement.setString(1, user.getUsername());
@@ -51,6 +51,7 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public void deleteUser(User user) {
+
 
     }
 
