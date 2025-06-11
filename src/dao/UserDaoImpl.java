@@ -3,6 +3,7 @@ package dao;
 import Database.DatabaseConnection;
 import entities.User;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -31,6 +32,20 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public void updateUser(User user) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET username = ?, email = ? WHERE id = ?");
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getEmail());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("User updated successfully");
+            } else {
+                System.out.println("User update failed");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
