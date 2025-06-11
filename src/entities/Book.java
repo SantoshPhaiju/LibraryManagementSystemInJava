@@ -11,10 +11,7 @@ public class Book {
     private Map<String, List<String>> issuedList;
     private boolean isIssued;
 
-
-    public Book() {
-
-    }
+    public Book() {}
 
     public Book(String title, String author, int bookId, int quantity) {
         this.title = title;
