@@ -43,7 +43,7 @@ public class LibraryGUI extends JFrame {
 
     private JPanel createUsersPanel() {
         JPanel usersPanel = new JPanel(new BorderLayout());
-        String[] columnNames = {"ID", "Username", "Email", "timestamp"};
+        String[] columnNames = {"ID", "Username", "Email", "created_at"};
 
         usersModel = new DefaultTableModel(null, columnNames);
         usersTable = new JTable(usersModel);
@@ -212,6 +212,21 @@ public class LibraryGUI extends JFrame {
         dialog.add(cancelButton);
 
         cancelButton.addActionListener(e -> dialog.dispose());
+        saveButton.addActionListener(e -> {
+
+            User newUser = new User(usernameField.getText());
+            newUser.setEmail(emailField.getText());
+
+            if (userDao.createUser(newUser)) {
+                loadData();
+                JOptionPane.showMessageDialog(this, "User added successfully");
+                dialog.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "User creation failed");
+                dialog.dispose();
+            }
+
+        });
 
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
