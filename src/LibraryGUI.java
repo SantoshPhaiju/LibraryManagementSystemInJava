@@ -1,4 +1,6 @@
 import dao.BookDaoImpl;
+import dao.UserDaoImpl;
+import entities.User;
 import models.Book;
 import utils.BookIdGenerator;
 
@@ -10,11 +12,15 @@ import java.util.List;
 public class LibraryGUI extends JFrame {
     private BookDaoImpl bookDao;
     private JTabbedPane tabbedPane;
+    private UserDaoImpl userDao;
     private JTable table;
+    private JTable usersTable;
+    private DefaultTableModel usersModel;
     private DefaultTableModel booksModel;
 
     public LibraryGUI() {
         bookDao = new BookDaoImpl();
+        userDao = new UserDaoImpl();
         initializeGui();
         loadData();
     }
@@ -29,12 +35,52 @@ public class LibraryGUI extends JFrame {
         JPanel booksPanel = createBooksPanel();
         tabbedPane.addTab("Books", booksPanel);
 
+        JPanel usersPanel = createUsersPanel();
+        tabbedPane.addTab("Users", usersPanel);
+
         add(tabbedPane);
+    }
+
+    private JPanel createUsersPanel() {
+        JPanel usersPanel = new JPanel(new BorderLayout());
+        String[] columnNames = {"ID", "Username", "Email", "timestamp"};
+
+        usersModel = new DefaultTableModel(null, columnNames);
+        usersTable = new JTable(usersModel);
+
+        JScrollPane scrollPane = new JScrollPane(usersTable);
+
+        JPanel buttonsPanel = new JPanel(new FlowLayout());
+        JButton addUserButton = new JButton("Add User");
+        JButton updateUserButton = new JButton("Update User");
+        JButton deleteUserButton = new JButton("Delete User");
+
+        buttonsPanel.add(addUserButton);
+        buttonsPanel.add(updateUserButton);
+        buttonsPanel.add(deleteUserButton);
+
+        usersPanel.add(scrollPane, BorderLayout.CENTER);
+        usersPanel.add(buttonsPanel, BorderLayout.SOUTH);
+
+        addUserButton.addActionListener(e -> {
+
+        });
+
+        updateUserButton.addActionListener(e -> {
+
+        });
+
+        deleteUserButton.addActionListener(e -> {
+
+        });
+
+
+
+        return usersPanel;
     }
 
     private JPanel createBooksPanel() {
         JPanel booksPanel = new JPanel();
-
         booksPanel.setLayout(new BorderLayout());
 
         String[] columnNames = {"Id", "Title", "Author", "BookId", "Quantity"};
@@ -73,6 +119,7 @@ public class LibraryGUI extends JFrame {
 
     private void loadData() {
         loadBooks();
+        loadUsers();
     }
 
     private void loadBooks() {
@@ -87,6 +134,20 @@ public class LibraryGUI extends JFrame {
                     book.getQuantity(),
             };
             booksModel.addRow(row);
+        }
+    }
+
+    private void loadUsers() {
+        usersModel.setRowCount(0);
+        List <User> users = userDao.getAllUsers();
+        for (User user : users) {
+            Object[] row = {
+                    user.getId(),
+                    user.getUsername(),
+                    user.getEmail(),
+                    user.getTimestamp(),
+            };
+            usersModel.addRow(row);
         }
     }
 
