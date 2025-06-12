@@ -6,6 +6,7 @@ import entities.User;
 import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDAO {
@@ -64,6 +65,23 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public User findUserByEmail(String email) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM users WHERE email = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                User user = new User(resultSet.getString("username")); // constructor with username
+                user.setId(resultSet.getInt("id"));
+                user.setEmail(resultSet.getString("email"));
+                user.setTimestamp(resultSet.getString("timestamp"));
+                return user;
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
         return null;
     }
+
 }
