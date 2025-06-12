@@ -67,11 +67,11 @@ public class LibraryGUI extends JFrame {
         });
 
         updateUserButton.addActionListener(e -> {
-
+            showUpdateUserDialog();
         });
 
         deleteUserButton.addActionListener(e -> {
-
+            deleteUserDialog();
         });
 
 
@@ -188,6 +188,35 @@ public class LibraryGUI extends JFrame {
 
         cancelButton.addActionListener(e -> dialog.dispose());
 
+
+        dialog.setSize(600, 400);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    private void showUpdateUserDialog() {
+        JDialog dialog = new JDialog(this, "Update User", true);
+        dialog.setLayout(new GridLayout(2, 2));
+        dialog.add(new JLabel("Feature needs to be impleted here !!!"));
+        dialog.add(new JLabel("blah:"));
+
+
+        JButton saveButton = new JButton("Save");
+        JButton cancelButton = new JButton("Cancel");
+
+        dialog.add(saveButton);
+        dialog.add(cancelButton);
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        dialog.setSize(600, 400);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    private void deleteUserDialog() {
+        JDialog dialog = new JDialog(this, "Delete User", true);
+        dialog.add(new JLabel("Feature needs to be impleted here !!!"));
 
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
