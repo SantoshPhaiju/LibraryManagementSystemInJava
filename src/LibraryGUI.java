@@ -63,7 +63,7 @@ public class LibraryGUI extends JFrame {
         usersPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
         addUserButton.addActionListener(e -> {
-
+            showAddUserDialog();
         });
 
         updateUserButton.addActionListener(e -> {
@@ -73,7 +73,6 @@ public class LibraryGUI extends JFrame {
         deleteUserButton.addActionListener(e -> {
 
         });
-
 
 
         return usersPanel;
@@ -114,7 +113,7 @@ public class LibraryGUI extends JFrame {
             deleteBookDialog();
         });
 
-        return  booksPanel;
+        return booksPanel;
     }
 
     private void loadData() {
@@ -139,7 +138,7 @@ public class LibraryGUI extends JFrame {
 
     private void loadUsers() {
         usersModel.setRowCount(0);
-        List <User> users = userDao.getAllUsers();
+        List<User> users = userDao.getAllUsers();
         for (User user : users) {
             Object[] row = {
                     user.getId(),
@@ -175,7 +174,7 @@ public class LibraryGUI extends JFrame {
 
         saveButton.addActionListener(e -> {
             boolean isSuccess = saveBookToDb(titleField, authorField, quantityField, bookDao);
-            if(isSuccess) {
+            if (isSuccess) {
                 loadData();
 
                 JOptionPane.showMessageDialog(this, "New Book created successfully");
@@ -193,6 +192,31 @@ public class LibraryGUI extends JFrame {
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+    }
+
+    private void showAddUserDialog() {
+        JDialog dialog = new JDialog(this, "Add User", true);
+        dialog.setLayout(new GridLayout(3, 2));
+        JTextField usernameField = new JTextField();
+        JTextField emailField = new JTextField();
+
+        JLabel usernameLabel = new JLabel("Username:");
+        dialog.add(usernameLabel);
+        dialog.add(usernameField);
+        dialog.add(new JLabel("Email:"));
+        dialog.add(emailField);
+
+        JButton saveButton = new JButton("Save");
+        JButton cancelButton = new JButton("Cancel");
+        dialog.add(saveButton);
+        dialog.add(cancelButton);
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        dialog.setSize(600, 400);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
     }
 
     private static boolean saveBookToDb(JTextField titleField, JTextField authorField, JTextField quantityField, BookDaoImpl bookDao) {
