@@ -27,7 +27,7 @@ public class TransactionsDaoImpl implements TransactionDao {
         List<Transactions> transactions = new ArrayList<>();
         try (Connection connection = DatabaseConnection.getConnection();) {
 
-            String query = "SELECT * FROM transactions";
+            String query = "SELECT * FROM transactions t JOIN users u ON t.user_id = u.id JOIN books b ON t.book_id = b.id";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -41,6 +41,8 @@ public class TransactionsDaoImpl implements TransactionDao {
                 transaction.setId(id);
                 transaction.setUserId(userId);
                 transaction.setBookId(bookId);
+                transaction.setUsername(resultSet.getString("username"));
+                transaction.setBookname(resultSet.getString("title"));
                 transaction.setTransactionType(transactionType);
                 transaction.setDueDate(dueDate);
                 transaction.setReturnedDate(returnDate);
