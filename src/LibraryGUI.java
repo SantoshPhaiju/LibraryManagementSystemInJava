@@ -1,6 +1,7 @@
 import dao.BookDaoImpl;
 import dao.TransactionsDaoImpl;
 import dao.UserDaoImpl;
+import entities.Transactions;
 import entities.User;
 import models.Book;
 import utils.BookIdGenerator;
@@ -17,6 +18,8 @@ public class LibraryGUI extends JFrame {
     private TransactionsDaoImpl transactionsDao;
     private JTable table;
     private JTable usersTable;
+    private JTable transactionsTable;
+    private DefaultTableModel transactionsModel;
     private DefaultTableModel usersModel;
     private DefaultTableModel booksModel;
 
@@ -125,8 +128,23 @@ public class LibraryGUI extends JFrame {
     }
 
     private JPanel createTransactionsPanel() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new BorderLayout());
 
+        transactionsTable = new JTable();
+        JScrollPane scrollPane = new JScrollPane(transactionsTable);
+        String[] columnNames = {"Id", "Book Name", "Username", "Transaction Type", "Due Date", "Return Date"};
+        transactionsModel = new DefaultTableModel(null, columnNames);
+        transactionsTable.setModel(transactionsModel);
+
+        JPanel buttonsPanel = new JPanel(new FlowLayout());
+        JButton issueBookButton = new JButton("Issue Book");
+        JButton returnBookButton = new JButton("Return Book");
+        buttonsPanel.add(issueBookButton);
+        buttonsPanel.add(returnBookButton);
+
+
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(buttonsPanel, BorderLayout.SOUTH);
 
         return panel;
     }
@@ -134,6 +152,7 @@ public class LibraryGUI extends JFrame {
     private void loadData() {
         loadBooks();
         loadUsers();
+        loadTransactions();
     }
 
     private void loadBooks() {
@@ -162,6 +181,22 @@ public class LibraryGUI extends JFrame {
                     user.getTimestamp(),
             };
             usersModel.addRow(row);
+        }
+    }
+
+    private void loadTransactions() {
+        transactionsModel.setRowCount(0);
+        List<Transactions> transactionsData = transactionsDao.showAllTransactions();
+        for (Transactions transaction : transactionsData) {
+            Object[] row = {
+                    transaction.getId(),
+                    transaction.getBookname(),
+                    transaction.getUsername(),
+                    transaction.getTransactionType(),
+                    transaction.getDueDate(),
+                    transaction.getReturnedDate() == null ? "-" : transaction.getReturnedDate()
+            };
+            transactionsModel.addRow(row);
         }
     }
 
