@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDAO {
     @Override
@@ -61,6 +63,29 @@ public class UserDaoImpl implements UserDAO {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        try (Connection connection = DatabaseConnection.getConnection();){
+            String query = "SELECT * FROM users";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<User> users = new ArrayList<>();
+            while (resultSet.next()) {
+                User newuser = new User(resultSet.getString("username"));
+                newuser.setEmail(resultSet.getString("email"));
+                newuser.setTimestamp(resultSet.getString("timestamp"));
+                newuser.setId(resultSet.getInt("id"));
+                users.add(newuser);
+            }
+            resultSet.close();
+            preparedStatement.close();
+            return users;
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @Override
