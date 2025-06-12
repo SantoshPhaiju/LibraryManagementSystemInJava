@@ -1,4 +1,5 @@
 import dao.BookDaoImpl;
+import dao.TransactionsDaoImpl;
 import dao.UserDaoImpl;
 import entities.User;
 import models.Book;
@@ -13,6 +14,7 @@ public class LibraryGUI extends JFrame {
     private BookDaoImpl bookDao;
     private JTabbedPane tabbedPane;
     private UserDaoImpl userDao;
+    private TransactionsDaoImpl transactionsDao;
     private JTable table;
     private JTable usersTable;
     private DefaultTableModel usersModel;
@@ -21,6 +23,7 @@ public class LibraryGUI extends JFrame {
     public LibraryGUI() {
         bookDao = new BookDaoImpl();
         userDao = new UserDaoImpl();
+        transactionsDao = new TransactionsDaoImpl();
         initializeGui();
         loadData();
     }
@@ -32,11 +35,16 @@ public class LibraryGUI extends JFrame {
         setLocationRelativeTo(null);
         tabbedPane = new JTabbedPane();
 
+        transactionsDao.showAllTransactions();
+
         JPanel booksPanel = createBooksPanel();
         tabbedPane.addTab("Books", booksPanel);
 
         JPanel usersPanel = createUsersPanel();
         tabbedPane.addTab("Users", usersPanel);
+
+        JPanel transactionsPanel = createTransactionsPanel();
+        tabbedPane.addTab("Transactions", transactionsPanel);
 
         add(tabbedPane);
     }
@@ -114,6 +122,13 @@ public class LibraryGUI extends JFrame {
         });
 
         return booksPanel;
+    }
+
+    private JPanel createTransactionsPanel() {
+        JPanel panel = new JPanel();
+
+
+        return panel;
     }
 
     private void loadData() {
