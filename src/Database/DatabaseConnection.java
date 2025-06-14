@@ -14,15 +14,4 @@ public class DatabaseConnection {
         return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
 
-    public static void main(String[] args) {
-        try (Connection connection = DatabaseConnection.getConnection();) {
-            if (connection != null) {
-                System.out.println("Connection Established");
-            } else {
-                System.out.println("Connection Not Established");
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 }
