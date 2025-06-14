@@ -391,6 +391,11 @@ public class LibraryGUI extends JFrame {
         }
     }
 
+    private void issueBookDialog() {
+        JDialog dialog = new JDialog(this, "Issue Book", true);
+
+    }
+
     public static void main(String[] args) {
         new LibraryGUI().setVisible(true);
     }
