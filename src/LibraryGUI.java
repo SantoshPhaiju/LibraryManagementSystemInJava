@@ -12,10 +12,10 @@ import java.awt.*;
 import java.util.List;
 
 public class LibraryGUI extends JFrame {
-    private BookDaoImpl bookDao;
+    private final BookDaoImpl bookDao;
     private JTabbedPane tabbedPane;
-    private UserDaoImpl userDao;
-    private TransactionsDaoImpl transactionsDao;
+    private final UserDaoImpl userDao;
+    private final TransactionsDaoImpl transactionsDao;
     private JTable table;
     private JTable usersTable;
     private JTable transactionsTable;
