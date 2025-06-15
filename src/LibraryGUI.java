@@ -22,6 +22,8 @@ public class LibraryGUI extends JFrame {
     private DefaultTableModel transactionsModel;
     private DefaultTableModel usersModel;
     private DefaultTableModel booksModel;
+    private JComboBox<String> bookComboBox;
+    private JComboBox<String> userComboBox;
 
     public LibraryGUI() {
         bookDao = new BookDaoImpl();
@@ -142,6 +144,10 @@ public class LibraryGUI extends JFrame {
         buttonsPanel.add(issueBookButton);
         buttonsPanel.add(returnBookButton);
 
+        issueBookButton.addActionListener(e -> {
+            issueBookDialog();
+        });
+
 
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(buttonsPanel, BorderLayout.SOUTH);
@@ -197,6 +203,20 @@ public class LibraryGUI extends JFrame {
                     transaction.getReturnedDate() == null ? "-" : transaction.getReturnedDate()
             };
             transactionsModel.addRow(row);
+        }
+    }
+
+    private void loadComboBoxes(JComboBox<String> bookComboBox, JComboBox<String> userComboBox) {
+        List<Book> books = bookDao.displayAllBooks();
+        List<User> users = userDao.getAllUsers();
+
+        bookComboBox.removeAllItems();
+        for (Book book : books) {
+            bookComboBox.addItem(book.getTitle());
+        }
+
+        for (User user : users) {
+            userComboBox.addItem(user.getUsername());
         }
     }
 
@@ -395,12 +415,24 @@ public class LibraryGUI extends JFrame {
         JDialog dialog = new JDialog(this, "Issue Book", true);
         dialog.setLayout(new GridLayout(3, 2));
 
+        bookComboBox = new JComboBox<>();
+        userComboBox = new JComboBox<>();
+
+        loadComboBoxes(bookComboBox, userComboBox);
+
+        dialog.add(new JLabel("Select Book:"));
+        dialog.add(bookComboBox);
+
+        dialog.add(new JLabel("Select User:"));
+        dialog.add(userComboBox);
 
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
 
     }
+
+
 
     public static void main(String[] args) {
         new LibraryGUI().setVisible(true);
