@@ -444,6 +444,9 @@ public class LibraryGUI extends JFrame {
 
         cancelButton.addActionListener(e -> dialog.dispose());
 
+        dialog.add(issueBookButton);
+        dialog.add(cancelButton);
+
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
