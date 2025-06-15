@@ -7,14 +7,42 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 public class TransactionsDaoImpl implements TransactionDao {
 
     @Override
     public void issueBook(int bookId, int userId, int borrow_period) {
+        try (Connection connection = DatabaseConnection.getConnection();) {
+            String query = "INSERT INTO transactions (user_id, book_id, transaction_type, due_date) VALUES (?, ?, ?, ?)";
 
+            // Calculate due date
+            LocalDate dueDate = LocalDate.now().plusDays(borrow_period);
+            Date sqlDueDate = Date.valueOf(dueDate); // Convert to java.sql.Date
+
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, bookId);
+            preparedStatement.setString(3, "Borrow");
+            preparedStatement.setDate(4, sqlDueDate);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Book Issued");
+            } else {
+                System.out.println("Book Not Issued");
+            }
+
+
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
