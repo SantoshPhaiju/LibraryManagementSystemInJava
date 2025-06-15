@@ -24,8 +24,8 @@ public class LibraryGUI extends JFrame {
     private DefaultTableModel transactionsModel;
     private DefaultTableModel usersModel;
     private DefaultTableModel booksModel;
-    private JComboBox<String> bookComboBox;
-    private JComboBox<String> userComboBox;
+    private JComboBox<Book> bookComboBox;
+    private JComboBox<User> userComboBox;
 
     public LibraryGUI() {
         bookDao = new BookDaoImpl();
@@ -208,17 +208,17 @@ public class LibraryGUI extends JFrame {
         }
     }
 
-    private void loadComboBoxes(JComboBox<String> bookComboBox, JComboBox<String> userComboBox) {
+    private void loadComboBoxes(JComboBox<Book> bookComboBox, JComboBox<User> userComboBox) {
         List<Book> books = bookDao.displayAllBooks();
         List<User> users = userDao.getAllUsers();
 
         bookComboBox.removeAllItems();
         for (Book book : books) {
-            bookComboBox.addItem(book.getTitle());
+            bookComboBox.addItem(book);
         }
 
         for (User user : users) {
-            userComboBox.addItem(user.getUsername());
+            userComboBox.addItem(user);
         }
     }
 
