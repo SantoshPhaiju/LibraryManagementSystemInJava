@@ -7,6 +7,10 @@ public class Book {
     private String bookId;
     private int quantity;
 
+    @Override
+    public String toString() {
+        return this.title;
+    }
 
     public Book() {}
 
