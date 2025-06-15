@@ -213,7 +213,9 @@ public class LibraryGUI extends JFrame {
         List<User> users = userDao.getAllUsers();
 
         bookComboBox.removeAllItems();
+        userComboBox.removeAllItems();
         for (Book book : books) {
+            System.out.println("testing to string" + book.toString());
             bookComboBox.addItem(book);
         }
 
