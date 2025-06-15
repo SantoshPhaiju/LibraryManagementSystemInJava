@@ -9,6 +9,8 @@ import utils.BookIdGenerator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class LibraryGUI extends JFrame {
@@ -425,6 +427,22 @@ public class LibraryGUI extends JFrame {
 
         dialog.add(new JLabel("Select User:"));
         dialog.add(userComboBox);
+
+        JButton issueBookButton = new JButton("Issue Book");
+        JButton cancelButton = new JButton("Cancel");
+
+        issueBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Book selectedBook = (Book) bookComboBox.getSelectedItem();
+                User selectedUser = (User) userComboBox.getSelectedItem();
+                assert selectedBook != null;
+                assert selectedUser != null;
+                transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 1);
+            }
+        });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
 
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
