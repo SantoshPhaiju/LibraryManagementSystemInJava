@@ -6,6 +6,11 @@ public class User {
     private String email;
     private String timestamp;
 
+    @Override
+    public String toString() {
+        return this.username;
+    }
+
     public String getTimestamp() {
         return timestamp;
     }
