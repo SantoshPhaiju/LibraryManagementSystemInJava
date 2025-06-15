@@ -11,6 +11,13 @@ public class Book {
     private Map<String, List<String>> issuedList;
     private boolean isIssued;
 
+
+    @Override
+    public String toString() {
+        System.out.println("toString() called for book: " + title);
+        return title;
+    }
+
     public Book() {}
 
     public Book(String title, String author, int bookId, int quantity) {
@@ -19,6 +26,7 @@ public class Book {
         this.bookId = bookId;
         this.quantity = quantity;
     }
+
 
     public Map<String, List<String>> getIssuedList() {
         return issuedList;
@@ -66,11 +74,6 @@ public class Book {
 
     public void setIssued(boolean b) {
         this.isIssued = b;
-    }
-
-    @Override
-    public String toString() {
-        return title + " by " + author + (isIssued ? " (Issued)" : " (Available)");
     }
 
     public String toFileString() {
