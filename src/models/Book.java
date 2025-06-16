@@ -27,8 +27,6 @@ public class Book {
         this.author = author;
         this.bookId = bookId;
         this.quantity = quantity;
-
-
     }
 
     public String getTitle() {
