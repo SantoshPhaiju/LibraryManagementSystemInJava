@@ -47,8 +47,30 @@ public class TransactionsDaoImpl implements TransactionDao {
 
     @Override
     public void returnBook(int bookId, int userId) {
+        try (Connection connection = DatabaseConnection.getConnection();) {
+            String query = "INSERT INTO transactions (user_id, book_id, transaction_type, returned_date) VALUES (?, ?, ?, ?)";
 
+            java.sql.Date returnDate = java.sql.Date.valueOf(LocalDate.now());
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, bookId);
+            preparedStatement.setString(3, "Return");
+            preparedStatement.setDate(4, returnDate);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Book Returned");
+            } else {
+                System.out.println("Book Not Returned");
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
+
 
     @Override
     public List<Transactions> showAllTransactions() {
