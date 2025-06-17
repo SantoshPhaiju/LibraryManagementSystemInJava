@@ -440,7 +440,7 @@ public class LibraryGUI extends JFrame {
                 User selectedUser = (User) userComboBox.getSelectedItem();
                 assert selectedBook != null;
                 assert selectedUser != null;
-                transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 1);
+                transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
             }
         });
 
