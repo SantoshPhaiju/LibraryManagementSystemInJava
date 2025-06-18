@@ -15,12 +15,13 @@ public class BookDaoImpl implements BookDAO {
     public boolean addBook(Book book) {
         try {
             Connection connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO books (title, author, bookId, quantity) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO books (title, author, bookId, quantity, available) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getBookId());
             statement.setInt(4, book.getQuantity());
+            statement.setInt(5, book.getQuantity());
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -103,6 +104,7 @@ public class BookDaoImpl implements BookDAO {
                 book.setTitle(resultSet.getString("title"));
                 book.setAuthor(resultSet.getString("author"));
                 book.setQuantity(resultSet.getInt("quantity"));
+                book.setAvailable(resultSet.getInt("available"));
                 books.add(book);
             }
 
