@@ -2,6 +2,7 @@ package dao;
 
 import Database.DatabaseConnection;
 import entities.Transactions;
+import models.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,8 +16,26 @@ import java.util.List;
 public class TransactionsDaoImpl implements TransactionDao {
 
     @Override
-    public void issueBook(int bookId, int userId, int borrow_period) {
+    public void issueBook(int bookId, int userId, int borrow_period) throws BookNotAvailableException {
         try (Connection connection = DatabaseConnection.getConnection();) {
+            Book book;
+            String fetchBookQuery = "SELECT * FROM books WHERE id = ? AND borrow_period = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(fetchBookQuery);
+            preparedStatement.setInt(1, bookId);
+            preparedStatement.setInt(2, borrow_period);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                book = new Book();
+                book.setId(resultSet.getInt("id"));
+                book.setAvailable(resultSet.getInt("available"));
+                book.setQuantity(resultSet.getInt("quantity"));
+                book.setTitle(resultSet.getString("title"));
+                book.setAuthor(resultSet.getString("author"));
+                book.setBookId(resultSet.getString("bookId"));
+            }
+
+            if (book.getQuantity() != 0) {
+
             String query = "INSERT INTO transactions (user_id, book_id, transaction_type, due_date) VALUES (?, ?, ?, ?)";
 
             // Calculate due date
@@ -35,9 +54,13 @@ public class TransactionsDaoImpl implements TransactionDao {
             if (rowsAffected > 0) {
                 System.out.println("Book Issued");
             } else {
-                System.out.println("Book Not Issued");
+                throw new BookNotAvailableException("Book is not available for borrowing.");
             }
 
+            } else {
+                System.out.println("Book is not available");
+                throw new BookNotAvailableException("Book is not available for borrowing.");
+            }
 
 
         } catch (ClassNotFoundException | SQLException e) {
