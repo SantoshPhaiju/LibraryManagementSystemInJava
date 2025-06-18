@@ -97,7 +97,7 @@ public class LibraryGUI extends JFrame {
         JPanel booksPanel = new JPanel();
         booksPanel.setLayout(new BorderLayout());
 
-        String[] columnNames = {"Id", "Title", "Author", "BookId", "Quantity"};
+        String[] columnNames = {"Id", "Title", "Author", "BookId", "Quantity", "Available"};
         booksModel = new DefaultTableModel(null, columnNames);
         table = new JTable(booksModel);
 
@@ -177,6 +177,7 @@ public class LibraryGUI extends JFrame {
                     book.getAuthor(),
                     book.getBookId(),
                     book.getQuantity(),
+                    book.getAvailable()
             };
             booksModel.addRow(row);
         }
