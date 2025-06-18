@@ -18,11 +18,10 @@ public class TransactionsDaoImpl implements TransactionDao {
     @Override
     public void issueBook(int bookId, int userId, int borrow_period) throws BookNotAvailableException {
         try (Connection connection = DatabaseConnection.getConnection();) {
-            Book book;
-            String fetchBookQuery = "SELECT * FROM books WHERE id = ? AND borrow_period = ?";
+            Book book = new Book();
+            String fetchBookQuery = "SELECT * FROM books WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(fetchBookQuery);
             preparedStatement.setInt(1, bookId);
-            preparedStatement.setInt(2, borrow_period);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 book = new Book();
@@ -43,13 +42,13 @@ public class TransactionsDaoImpl implements TransactionDao {
             Date sqlDueDate = Date.valueOf(dueDate); // Convert to java.sql.Date
 
 
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, bookId);
-            preparedStatement.setString(3, "Borrow");
-            preparedStatement.setDate(4, sqlDueDate);
+            PreparedStatement preparedStatement2 = connection.prepareStatement(query);
+            preparedStatement2.setInt(1, userId);
+            preparedStatement2.setInt(2, bookId);
+            preparedStatement2.setString(3, "Borrow");
+            preparedStatement2.setDate(4, sqlDueDate);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement2.executeUpdate();
 
             if (rowsAffected > 0) {
                 System.out.println("Book Issued");
@@ -73,7 +72,7 @@ public class TransactionsDaoImpl implements TransactionDao {
         try (Connection connection = DatabaseConnection.getConnection();) {
             String query = "INSERT INTO transactions (user_id, book_id, transaction_type, returned_date) VALUES (?, ?, ?, ?)";
 
-            java.sql.Date returnDate = java.sql.Date.valueOf(LocalDate.now());
+            Date returnDate = Date.valueOf(LocalDate.now());
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, userId);
@@ -93,7 +92,6 @@ public class TransactionsDaoImpl implements TransactionDao {
             System.out.println(e.getMessage());
         }
     }
-
 
     @Override
     public List<Transactions> showAllTransactions() {
@@ -130,6 +128,18 @@ public class TransactionsDaoImpl implements TransactionDao {
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
+        return null;
+    }
+
+    @Override
+    public List<Transactions> displayIssuedBooks() {
+        try (Connection connection = DatabaseConnection.getConnection();) {
+            String query = "SELECT * FROM transactions t JOIN users u ON t.user_id = u.id JOIN books b ON t.book_id = b.id";
+            PreparedStatement stmt = connection.prepareStatement(query);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
         return null;
     }
 }
