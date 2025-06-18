@@ -150,6 +150,10 @@ public class LibraryGUI extends JFrame {
             issueBookDialog();
         });
 
+        returnBookButton.addActionListener(e -> {
+
+        });
+
 
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(buttonsPanel, BorderLayout.SOUTH);
@@ -455,6 +459,9 @@ public class LibraryGUI extends JFrame {
 
     }
 
+    private void returnBookDialog() {
+        JDialog dialog = new JDialog(this, "Return Book", true);
+    }
 
 
     public static void main(String[] args) {
