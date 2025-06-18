@@ -9,4 +9,5 @@ public interface TransactionDao {
     public void returnBook(int bookId, int userId);
 
     public List<Transactions> showAllTransactions();
+    public List<Transactions> displayIssuedBooks();
 }
