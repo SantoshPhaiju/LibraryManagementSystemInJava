@@ -1,4 +1,5 @@
 import dao.BookDaoImpl;
+import dao.BookNotAvailableException;
 import dao.TransactionsDaoImpl;
 import dao.UserDaoImpl;
 import entities.Transactions;
@@ -445,7 +446,12 @@ public class LibraryGUI extends JFrame {
                 User selectedUser = (User) userComboBox.getSelectedItem();
                 assert selectedBook != null;
                 assert selectedUser != null;
+                try {
                 transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
+                } catch (BookNotAvailableException err) {
+                    JOptionPane.showMessageDialog(null, err.getMessage());
+                    System.out.println(err.getMessage());
+                }
             }
         });
 
