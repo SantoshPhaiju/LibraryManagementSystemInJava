@@ -6,6 +6,15 @@ public class Book {
     private String author;
     private String bookId;
     private int quantity;
+    private int available;
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
 
     @Override
     public String toString() {
