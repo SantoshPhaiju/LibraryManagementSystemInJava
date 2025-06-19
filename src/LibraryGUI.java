@@ -52,7 +52,7 @@ public class LibraryGUI extends JFrame {
         tabbedPane.addTab("Users", usersPanel);
 
         JPanel transactionsPanel = createTransactionsPanel();
-        tabbedPane.addTab("Transactions", transactionsPanel);
+        tabbedPane.addTab("Issued Books", transactionsPanel);
 
         add(tabbedPane);
     }
@@ -137,7 +137,7 @@ public class LibraryGUI extends JFrame {
 
         transactionsTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(transactionsTable);
-        String[] columnNames = {"Id", "Book Name", "Username", "Transaction Type", "Due Date", "Return Date"};
+        String[] columnNames = {"Id", "Book Name", "Username", "Due Date"};
         transactionsModel = new DefaultTableModel(null, columnNames);
         transactionsTable.setModel(transactionsModel);
 
@@ -200,15 +200,14 @@ public class LibraryGUI extends JFrame {
 
     private void loadTransactions() {
         transactionsModel.setRowCount(0);
-        List<Transactions> transactionsData = transactionsDao.showAllTransactions();
+//        List<Transactions> transactionsData = transactionsDao.showAllTransactions();
+        List<Transactions> transactionsData = transactionsDao.displayIssuedBooks();
         for (Transactions transaction : transactionsData) {
             Object[] row = {
                     transaction.getId(),
                     transaction.getBookname(),
                     transaction.getUsername(),
-                    transaction.getTransactionType(),
                     transaction.getDueDate(),
-                    transaction.getReturnedDate() == null ? "-" : transaction.getReturnedDate()
             };
             transactionsModel.addRow(row);
         }
@@ -507,9 +506,6 @@ public class LibraryGUI extends JFrame {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
-
-
-
 
     public static void main(String[] args) {
         new LibraryGUI().setVisible(true);
