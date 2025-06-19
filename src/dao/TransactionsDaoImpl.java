@@ -53,6 +53,12 @@ public class TransactionsDaoImpl implements TransactionDao {
 
             if (rowsAffected > 0) {
                 System.out.println("Book Issued");
+                book.setAvailable(book.getAvailable() - 1);
+                String query2 = "UPDATE books SET available = ? WHERE id = ?";
+                PreparedStatement preparedStatement3 = connection.prepareStatement(query2);
+                preparedStatement3.setInt(1, book.getAvailable());
+                preparedStatement3.setInt(2, bookId);
+                preparedStatement3.executeUpdate();
             } else {
                 throw new BookNotAvailableException("Book is not available for borrowing.");
             }
@@ -71,6 +77,10 @@ public class TransactionsDaoImpl implements TransactionDao {
     @Override
     public void returnBook(int bookId, int userId) {
         try (Connection connection = DatabaseConnection.getConnection();) {
+
+            String query1 = "";
+
+
             String query = "INSERT INTO transactions (user_id, book_id, transaction_type, returned_date) VALUES (?, ?, ?, ?)";
 
             Date returnDate = Date.valueOf(LocalDate.now());
