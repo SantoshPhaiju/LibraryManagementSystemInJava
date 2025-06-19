@@ -447,6 +447,9 @@ public class LibraryGUI extends JFrame {
                 assert selectedUser != null;
                 try {
                 transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
+                JOptionPane.showMessageDialog(rootPane, "Book Issued successfully");
+                loadTransactions();
+                dialog.dispose();
                 } catch (BookNotAvailableException err) {
                     JOptionPane.showMessageDialog(null, err.getMessage());
                     System.out.println(err.getMessage());
