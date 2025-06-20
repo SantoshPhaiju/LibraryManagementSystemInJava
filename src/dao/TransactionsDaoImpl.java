@@ -4,7 +4,6 @@ import Database.DatabaseConnection;
 import entities.Transactions;
 import models.Book;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
