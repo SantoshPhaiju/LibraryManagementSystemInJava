@@ -171,4 +171,35 @@ public class TransactionsDaoImpl implements TransactionDao {
             return null;
         }
     }
+
+    @Override
+    public List<Transactions> displayReturnedBooks() {
+        try (Connection connection = DatabaseConnection.getConnection();) {
+            String query = "SELECT * FROM transactions t " +
+                    "JOIN users u ON t.user_id = u.id " +
+                    "JOIN books b ON t.book_id = b.id " +
+                    "WHERE t.transaction_type = 'Return' AND t.status = 'returned'";
+
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet resultSet = stmt.executeQuery();
+            List<Transactions> returnedBooks = new ArrayList<>();
+            while (resultSet.next()) {
+                Transactions transactions = new Transactions();
+                int id = resultSet.getInt("id");
+                String returnedDate = resultSet.getString("returned_date");
+                transactions.setId(id);
+                transactions.setUsername(resultSet.getString("username"));
+                transactions.setBookname(resultSet.getString("title"));
+                transactions.setStatus(resultSet.getString("status"));
+                transactions.setReturnedDate(returnedDate);
+                returnedBooks.add(transactions);
+            }
+
+            return returnedBooks;
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
