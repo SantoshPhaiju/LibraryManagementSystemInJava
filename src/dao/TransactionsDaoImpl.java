@@ -75,11 +75,9 @@ public class TransactionsDaoImpl implements TransactionDao {
     }
 
     @Override
-    public void returnBook(int bookId, int userId) {
+    public void returnBook(int transactionId) {
         try (Connection connection = DatabaseConnection.getConnection();) {
-
             String query1 = "";
-
             String query = "INSERT INTO transactions (user_id, book_id, transaction_type, returned_date) VALUES (?, ?, ?, ?)";
 
             Date returnDate = Date.valueOf(LocalDate.now());
