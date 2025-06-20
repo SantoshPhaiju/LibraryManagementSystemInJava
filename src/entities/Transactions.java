@@ -9,6 +9,15 @@ public class Transactions {
     private String returnedDate;
     private String username;
     private String bookname;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getUsername() {
         return username;

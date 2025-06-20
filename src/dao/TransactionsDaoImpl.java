@@ -80,7 +80,6 @@ public class TransactionsDaoImpl implements TransactionDao {
 
             String query1 = "";
 
-
             String query = "INSERT INTO transactions (user_id, book_id, transaction_type, returned_date) VALUES (?, ?, ?, ?)";
 
             Date returnDate = Date.valueOf(LocalDate.now());
@@ -148,7 +147,7 @@ public class TransactionsDaoImpl implements TransactionDao {
             String query = "SELECT * FROM transactions t " +
                     "JOIN users u ON t.user_id = u.id " +
                     "JOIN books b ON t.book_id = b.id " +
-                    "WHERE t.transaction_type = 'Borrow'";
+                    "WHERE t.transaction_type = 'Borrow' AND t.status = 'issued'";
 
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
@@ -160,6 +159,7 @@ public class TransactionsDaoImpl implements TransactionDao {
                 transactions.setId(id);
                 transactions.setUsername(resultSet.getString("username"));
                 transactions.setBookname(resultSet.getString("title"));
+                transactions.setStatus(resultSet.getString("status"));
                 transactions.setDueDate(dueDate);
                 borrowedBooks.add(transactions);
             }
