@@ -56,6 +56,9 @@ public class LibraryGUI extends JFrame {
         JPanel transactionsPanel = createIssuedBooksPanel();
         tabbedPane.addTab("Issued Books", transactionsPanel);
 
+        JPanel returnedBooksPanel = createReturnBooksPanel();
+        tabbedPane.addTab("Returned Books", returnedBooksPanel);
+
         add(tabbedPane);
     }
 
@@ -137,16 +140,11 @@ public class LibraryGUI extends JFrame {
     private JPanel createIssuedBooksPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        issuedBooksTable
- = new JTable();
-        JScrollPane scrollPane = new JScrollPane(issuedBooksTable
-);
+        issuedBooksTable = new JTable();
+        JScrollPane scrollPane = new JScrollPane(issuedBooksTable);
         String[] columnNames = {"Id", "Book Name", "Username", "Status", "Due Date"};
-        issuedBooksModel
- = new DefaultTableModel(null, columnNames);
-        issuedBooksTable
-.setModel(issuedBooksModel
-);
+        issuedBooksModel = new DefaultTableModel(null, columnNames);
+        issuedBooksTable.setModel(issuedBooksModel);
 
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         JButton issueBookButton = new JButton("Issue Book");
@@ -169,10 +167,25 @@ public class LibraryGUI extends JFrame {
         return panel;
     }
 
+    private JPanel createReturnBooksPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        returnBooksTable = new JTable();
+        JScrollPane scrollPane = new JScrollPane(returnBooksTable);
+        String[] columnNames = {"Id", "Book Name", "Username", "Status", "Returned Date"};
+        returnBooksModel = new DefaultTableModel(null, columnNames);
+        returnBooksTable.setModel(returnBooksModel);
+        
+        panel.add(scrollPane);
+        panel.setVisible(true);
+        return panel;
+    }
+
     private void loadData() {
         loadBooks();
         loadUsers();
-        loadTransactions();
+        loadIssuedBooks();
+        loadReturnedBooks();
     }
 
     private void loadBooks() {
@@ -205,10 +218,8 @@ public class LibraryGUI extends JFrame {
         }
     }
 
-    private void loadTransactions() {
-        issuedBooksModel
-.setRowCount(0);
-//        List<Transactions> transactionsData = transactionsDao.showAllTransactions();
+    private void loadIssuedBooks() {
+        issuedBooksModel.setRowCount(0);
         List<Transactions> transactionsData = transactionsDao.displayIssuedBooks();
         for (Transactions transaction : transactionsData) {
             Object[] row = {
@@ -218,8 +229,22 @@ public class LibraryGUI extends JFrame {
                     transaction.getStatus(),
                     transaction.getDueDate(),
             };
-            issuedBooksModel
-.addRow(row);
+            issuedBooksModel.addRow(row);
+        }
+    }
+
+    private void loadReturnedBooks() {
+        returnBooksModel.setRowCount(0);
+        List<Transactions> transactionsData = transactionsDao.displayReturnedBooks();
+        for (Transactions transaction : transactionsData) {
+            Object[] row = {
+                    transaction.getId(),
+                    transaction.getBookname(),
+                    transaction.getUsername(),
+                    transaction.getStatus(),
+                    transaction.getReturnedDate(),
+            };
+            returnBooksModel.addRow(row);
         }
     }
 
@@ -456,11 +481,12 @@ public class LibraryGUI extends JFrame {
                 assert selectedBook != null;
                 assert selectedUser != null;
                 try {
-                transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
-                JOptionPane.showMessageDialog(rootPane, "Book Issued successfully");
-                loadTransactions();
-                loadBooks();
-                dialog.dispose();
+                    transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
+                    JOptionPane.showMessageDialog(rootPane, "Book Issued successfully");
+                    loadIssuedBooks
+();
+                    loadBooks();
+                    dialog.dispose();
                 } catch (BookNotAvailableException err) {
                     JOptionPane.showMessageDialog(null, err.getMessage());
                     System.out.println(err.getMessage());
