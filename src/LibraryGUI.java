@@ -21,8 +21,10 @@ public class LibraryGUI extends JFrame {
     private final TransactionsDaoImpl transactionsDao;
     private JTable table;
     private JTable usersTable;
-    private JTable transactionsTable;
-    private DefaultTableModel transactionsModel;
+    private JTable issuedBooksTable;
+    private JTable returnBooksTable;
+    private DefaultTableModel returnBooksModel;
+    private DefaultTableModel issuedBooksModel;
     private DefaultTableModel usersModel;
     private DefaultTableModel booksModel;
     private JComboBox<Book> bookComboBox;
@@ -51,7 +53,7 @@ public class LibraryGUI extends JFrame {
         JPanel usersPanel = createUsersPanel();
         tabbedPane.addTab("Users", usersPanel);
 
-        JPanel transactionsPanel = createTransactionsPanel();
+        JPanel transactionsPanel = createIssuedBooksPanel();
         tabbedPane.addTab("Issued Books", transactionsPanel);
 
         add(tabbedPane);
@@ -132,14 +134,19 @@ public class LibraryGUI extends JFrame {
         return booksPanel;
     }
 
-    private JPanel createTransactionsPanel() {
+    private JPanel createIssuedBooksPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        transactionsTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(transactionsTable);
+        issuedBooksTable
+ = new JTable();
+        JScrollPane scrollPane = new JScrollPane(issuedBooksTable
+);
         String[] columnNames = {"Id", "Book Name", "Username", "Status", "Due Date"};
-        transactionsModel = new DefaultTableModel(null, columnNames);
-        transactionsTable.setModel(transactionsModel);
+        issuedBooksModel
+ = new DefaultTableModel(null, columnNames);
+        issuedBooksTable
+.setModel(issuedBooksModel
+);
 
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         JButton issueBookButton = new JButton("Issue Book");
@@ -199,7 +206,8 @@ public class LibraryGUI extends JFrame {
     }
 
     private void loadTransactions() {
-        transactionsModel.setRowCount(0);
+        issuedBooksModel
+.setRowCount(0);
 //        List<Transactions> transactionsData = transactionsDao.showAllTransactions();
         List<Transactions> transactionsData = transactionsDao.displayIssuedBooks();
         for (Transactions transaction : transactionsData) {
@@ -210,7 +218,8 @@ public class LibraryGUI extends JFrame {
                     transaction.getStatus(),
                     transaction.getDueDate(),
             };
-            transactionsModel.addRow(row);
+            issuedBooksModel
+.addRow(row);
         }
     }
 
