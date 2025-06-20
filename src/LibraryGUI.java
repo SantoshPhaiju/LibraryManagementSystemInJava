@@ -509,38 +509,17 @@ public class LibraryGUI extends JFrame {
         JDialog dialog = new JDialog(this, "Return Book", true);
         dialog.setLayout(new GridLayout(3, 2));
 
-        JComboBox<Book> returnBookComboBox = new JComboBox<>();
-        JComboBox<User> returnUserComboBox = new JComboBox<>();
+        int selectedRow = returnBooksTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Please select a book to return");
+            return;
+        }
 
-        loadComboBoxes(returnBookComboBox, returnUserComboBox);
+        int transactionId = Integer.parseInt(returnBooksTable.getValueAt(selectedRow, 0).toString());
 
-        dialog.add(new JLabel("Select Book:"));
-        dialog.add(returnBookComboBox);
-        dialog.add(new JLabel("Select User:"));
-        dialog.add(returnUserComboBox);
+        transactionsDao.returnBook(transactionId);
 
-        JButton returnButton = new JButton("Return");
-        JButton cancelButton = new JButton("Cancel");
 
-        returnButton.addActionListener(e -> {
-            Book selectedBook = (Book) returnBookComboBox.getSelectedItem();
-            User selectedUser = (User) returnUserComboBox.getSelectedItem();
-
-            if (selectedBook == null || selectedUser == null) {
-                JOptionPane.showMessageDialog(this, "Please select both Book and User.");
-                return;
-            }
-
-            transactionsDao.returnBook(selectedBook.getId(), selectedUser.getId());
-            loadData(); // Refresh table
-            JOptionPane.showMessageDialog(this, "Book returned successfully!");
-            dialog.dispose();
-        });
-
-        cancelButton.addActionListener(e -> dialog.dispose());
-
-        dialog.add(returnButton);
-        dialog.add(cancelButton);
 
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
