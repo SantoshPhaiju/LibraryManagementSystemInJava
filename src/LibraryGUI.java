@@ -506,24 +506,17 @@ public class LibraryGUI extends JFrame {
     }
 
     private void returnBookDialog() {
-        JDialog dialog = new JDialog(this, "Return Book", true);
-        dialog.setLayout(new GridLayout(3, 2));
-
-        int selectedRow = returnBooksTable.getSelectedRow();
+        int selectedRow = issuedBooksTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(rootPane, "Please select a book to return");
             return;
         }
 
-        int transactionId = Integer.parseInt(returnBooksTable.getValueAt(selectedRow, 0).toString());
+        int transactionId = Integer.parseInt(issuedBooksTable.getValueAt(selectedRow, 0).toString());
 
         transactionsDao.returnBook(transactionId);
-
-
-
-        dialog.setSize(600, 400);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        loadData();
+        JOptionPane.showMessageDialog(rootPane, "Book Returned successfully");
     }
 
     public static void main(String[] args) {
