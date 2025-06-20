@@ -137,7 +137,7 @@ public class LibraryGUI extends JFrame {
 
         transactionsTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(transactionsTable);
-        String[] columnNames = {"Id", "Book Name", "Username", "Due Date"};
+        String[] columnNames = {"Id", "Book Name", "Username", "Status", "Due Date"};
         transactionsModel = new DefaultTableModel(null, columnNames);
         transactionsTable.setModel(transactionsModel);
 
@@ -207,6 +207,7 @@ public class LibraryGUI extends JFrame {
                     transaction.getId(),
                     transaction.getBookname(),
                     transaction.getUsername(),
+                    transaction.getStatus(),
                     transaction.getDueDate(),
             };
             transactionsModel.addRow(row);
