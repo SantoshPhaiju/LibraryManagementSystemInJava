@@ -21,8 +21,10 @@ public class LibraryGUI extends JFrame {
     private final TransactionsDaoImpl transactionsDao;
     private JTable table;
     private JTable usersTable;
-    private JTable transactionsTable;
-    private DefaultTableModel transactionsModel;
+    private JTable issuedBooksTable;
+    private JTable returnBooksTable;
+    private DefaultTableModel returnBooksModel;
+    private DefaultTableModel issuedBooksModel;
     private DefaultTableModel usersModel;
     private DefaultTableModel booksModel;
     private JComboBox<Book> bookComboBox;
@@ -51,8 +53,11 @@ public class LibraryGUI extends JFrame {
         JPanel usersPanel = createUsersPanel();
         tabbedPane.addTab("Users", usersPanel);
 
-        JPanel transactionsPanel = createTransactionsPanel();
+        JPanel transactionsPanel = createIssuedBooksPanel();
         tabbedPane.addTab("Issued Books", transactionsPanel);
+
+        JPanel returnedBooksPanel = createReturnBooksPanel();
+        tabbedPane.addTab("Returned Books", returnedBooksPanel);
 
         add(tabbedPane);
     }
@@ -132,14 +137,14 @@ public class LibraryGUI extends JFrame {
         return booksPanel;
     }
 
-    private JPanel createTransactionsPanel() {
+    private JPanel createIssuedBooksPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        transactionsTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(transactionsTable);
+        issuedBooksTable = new JTable();
+        JScrollPane scrollPane = new JScrollPane(issuedBooksTable);
         String[] columnNames = {"Id", "Book Name", "Username", "Status", "Due Date"};
-        transactionsModel = new DefaultTableModel(null, columnNames);
-        transactionsTable.setModel(transactionsModel);
+        issuedBooksModel = new DefaultTableModel(null, columnNames);
+        issuedBooksTable.setModel(issuedBooksModel);
 
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         JButton issueBookButton = new JButton("Issue Book");
@@ -162,10 +167,25 @@ public class LibraryGUI extends JFrame {
         return panel;
     }
 
+    private JPanel createReturnBooksPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        returnBooksTable = new JTable();
+        JScrollPane scrollPane = new JScrollPane(returnBooksTable);
+        String[] columnNames = {"Id", "Book Name", "Username", "Status", "Returned Date"};
+        returnBooksModel = new DefaultTableModel(null, columnNames);
+        returnBooksTable.setModel(returnBooksModel);
+        
+        panel.add(scrollPane);
+        panel.setVisible(true);
+        return panel;
+    }
+
     private void loadData() {
         loadBooks();
         loadUsers();
-        loadTransactions();
+        loadIssuedBooks();
+        loadReturnedBooks();
     }
 
     private void loadBooks() {
@@ -198,9 +218,8 @@ public class LibraryGUI extends JFrame {
         }
     }
 
-    private void loadTransactions() {
-        transactionsModel.setRowCount(0);
-//        List<Transactions> transactionsData = transactionsDao.showAllTransactions();
+    private void loadIssuedBooks() {
+        issuedBooksModel.setRowCount(0);
         List<Transactions> transactionsData = transactionsDao.displayIssuedBooks();
         for (Transactions transaction : transactionsData) {
             Object[] row = {
@@ -210,7 +229,22 @@ public class LibraryGUI extends JFrame {
                     transaction.getStatus(),
                     transaction.getDueDate(),
             };
-            transactionsModel.addRow(row);
+            issuedBooksModel.addRow(row);
+        }
+    }
+
+    private void loadReturnedBooks() {
+        returnBooksModel.setRowCount(0);
+        List<Transactions> transactionsData = transactionsDao.displayReturnedBooks();
+        for (Transactions transaction : transactionsData) {
+            Object[] row = {
+                    transaction.getId(),
+                    transaction.getBookname(),
+                    transaction.getUsername(),
+                    transaction.getStatus(),
+                    transaction.getReturnedDate(),
+            };
+            returnBooksModel.addRow(row);
         }
     }
 
@@ -447,11 +481,12 @@ public class LibraryGUI extends JFrame {
                 assert selectedBook != null;
                 assert selectedUser != null;
                 try {
-                transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
-                JOptionPane.showMessageDialog(rootPane, "Book Issued successfully");
-                loadTransactions();
-                loadBooks();
-                dialog.dispose();
+                    transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
+                    JOptionPane.showMessageDialog(rootPane, "Book Issued successfully");
+                    loadIssuedBooks
+();
+                    loadBooks();
+                    dialog.dispose();
                 } catch (BookNotAvailableException err) {
                     JOptionPane.showMessageDialog(null, err.getMessage());
                     System.out.println(err.getMessage());
@@ -471,45 +506,17 @@ public class LibraryGUI extends JFrame {
     }
 
     private void returnBookDialog() {
-        JDialog dialog = new JDialog(this, "Return Book", true);
-        dialog.setLayout(new GridLayout(3, 2));
+        int selectedRow = issuedBooksTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Please select a book to return");
+            return;
+        }
 
-        JComboBox<Book> returnBookComboBox = new JComboBox<>();
-        JComboBox<User> returnUserComboBox = new JComboBox<>();
+        int transactionId = Integer.parseInt(issuedBooksTable.getValueAt(selectedRow, 0).toString());
 
-        loadComboBoxes(returnBookComboBox, returnUserComboBox);
-
-        dialog.add(new JLabel("Select Book:"));
-        dialog.add(returnBookComboBox);
-        dialog.add(new JLabel("Select User:"));
-        dialog.add(returnUserComboBox);
-
-        JButton returnButton = new JButton("Return");
-        JButton cancelButton = new JButton("Cancel");
-
-        returnButton.addActionListener(e -> {
-            Book selectedBook = (Book) returnBookComboBox.getSelectedItem();
-            User selectedUser = (User) returnUserComboBox.getSelectedItem();
-
-            if (selectedBook == null || selectedUser == null) {
-                JOptionPane.showMessageDialog(this, "Please select both Book and User.");
-                return;
-            }
-
-            transactionsDao.returnBook(selectedBook.getId(), selectedUser.getId());
-            loadData(); // Refresh table
-            JOptionPane.showMessageDialog(this, "Book returned successfully!");
-            dialog.dispose();
-        });
-
-        cancelButton.addActionListener(e -> dialog.dispose());
-
-        dialog.add(returnButton);
-        dialog.add(cancelButton);
-
-        dialog.setSize(600, 400);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        transactionsDao.returnBook(transactionId);
+        loadData();
+        JOptionPane.showMessageDialog(rootPane, "Book Returned successfully");
     }
 
     public static void main(String[] args) {
