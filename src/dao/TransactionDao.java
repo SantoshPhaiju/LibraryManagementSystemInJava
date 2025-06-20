@@ -10,4 +10,5 @@ public interface TransactionDao {
 
     public List<Transactions> showAllTransactions();
     public List<Transactions> displayIssuedBooks();
+    public List<Transactions> displayReturnedBooks();
 }
