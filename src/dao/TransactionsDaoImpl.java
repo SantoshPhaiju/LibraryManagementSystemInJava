@@ -114,6 +114,10 @@ public class TransactionsDaoImpl implements TransactionDao {
             if (rowsAffected > 0) {
                 System.out.println("✅ Book returned successfully.");
                 String newQuery = "UPDATE transactions SET status = ? WHERE id = ?";
+                String bookUpdateQuery = "UPDATE books SET available = available + 1 WHERE id = ?";
+                PreparedStatement bookUpdateStmt = connection.prepareStatement(bookUpdateQuery);
+                bookUpdateStmt.setInt(1, bookId);
+                bookUpdateStmt.executeUpdate();
                 PreparedStatement newStmt = connection.prepareStatement(newQuery);
                 newStmt.setString(1, "returned");
                 newStmt.setInt(2, transactionId);
