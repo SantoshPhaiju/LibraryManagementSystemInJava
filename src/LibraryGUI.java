@@ -310,18 +310,49 @@ public class LibraryGUI extends JFrame {
 
     private void showUpdateUserDialog() {
         JDialog dialog = new JDialog(this, "Update User", true);
-        dialog.setLayout(new GridLayout(2, 2));
-        dialog.add(new JLabel("Feature needs to be impleted here !!!"));
-        dialog.add(new JLabel("blah:"));
+        dialog.setLayout(new GridLayout(3, 2));
+
+        int selectedRow = usersTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "First select a user to update!");
+            return;
+        }
+
+        JTextField usernameField = new JTextField();
+        JTextField emailField = new JTextField();
+
+        String oldUsername = usersModel.getValueAt(selectedRow, 1).toString();
+        String oldEmail = usersModel.getValueAt(selectedRow, 2).toString();
+
+        usernameField.setText(oldUsername);
+        emailField.setText(oldEmail);
 
 
         JButton saveButton = new JButton("Save");
         JButton cancelButton = new JButton("Cancel");
 
+        dialog.add(new JLabel("Username:"));
+        dialog.add(usernameField);
+
+        dialog.add(new JLabel("Email:"));
+        dialog.add(emailField);
+
         dialog.add(saveButton);
         dialog.add(cancelButton);
 
         cancelButton.addActionListener(e -> dialog.dispose());
+        saveButton.addActionListener(e -> {
+            String updatedUsername = usernameField.getText();
+            String updatedEmail = emailField.getText();
+            User updatedUser = new User(updatedUsername);
+            updatedUser.setEmail(updatedEmail);
+            updatedUser.setId((Integer) usersModel.getValueAt(selectedRow, 0));
+
+            userDao.updateUser(updatedUser);
+            JOptionPane.showMessageDialog(this, "User updated successfully!");
+            loadData();
+            dialog.dispose();
+        });
 
         dialog.setSize(600, 400);
         dialog.setLocationRelativeTo(null);
