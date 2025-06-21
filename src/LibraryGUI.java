@@ -349,7 +349,7 @@ public class LibraryGUI extends JFrame {
             updatedUser.setId((Integer) usersModel.getValueAt(selectedRow, 0));
 
             userDao.updateUser(updatedUser);
-            JOptionPane.showMessageDialog(null, "User updated successfully!");
+            JOptionPane.showMessageDialog(this, "User updated successfully!");
             loadData();
             dialog.dispose();
         });
