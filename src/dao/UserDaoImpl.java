@@ -39,6 +39,7 @@ public class UserDaoImpl implements UserDAO {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET username = ?, email = ? WHERE id = ?");
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setInt(3, user.getId());
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
@@ -47,6 +48,7 @@ public class UserDaoImpl implements UserDAO {
                 System.out.println("User update failed");
             }
         } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
         }
 
