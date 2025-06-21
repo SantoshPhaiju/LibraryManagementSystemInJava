@@ -74,11 +74,11 @@ public class LibraryGUI extends JFrame {
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         JButton addUserButton = new JButton("Add User");
         JButton updateUserButton = new JButton("Update User");
-        JButton deleteUserButton = new JButton("Delete User");
+//        JButton deleteUserButton = new JButton("Delete User");
 
         buttonsPanel.add(addUserButton);
         buttonsPanel.add(updateUserButton);
-        buttonsPanel.add(deleteUserButton);
+//        buttonsPanel.add(deleteUserButton);
 
         usersPanel.add(scrollPane, BorderLayout.CENTER);
         usersPanel.add(buttonsPanel, BorderLayout.SOUTH);
@@ -91,9 +91,9 @@ public class LibraryGUI extends JFrame {
             showUpdateUserDialog();
         });
 
-        deleteUserButton.addActionListener(e -> {
-            deleteUserDialog();
-        });
+//        deleteUserButton.addActionListener(e -> {
+//            deleteUserDialog();
+//        });
 
 
         return usersPanel;
@@ -175,7 +175,7 @@ public class LibraryGUI extends JFrame {
         String[] columnNames = {"Id", "Book Name", "Username", "Status", "Returned Date"};
         returnBooksModel = new DefaultTableModel(null, columnNames);
         returnBooksTable.setModel(returnBooksModel);
-        
+
         panel.add(scrollPane);
         panel.setVisible(true);
         return panel;
@@ -192,14 +192,7 @@ public class LibraryGUI extends JFrame {
         booksModel.setRowCount(0);
         List<Book> data = bookDao.displayAllBooks();
         for (Book book : data) {
-            Object[] row = {
-                    book.getId(),
-                    book.getTitle(),
-                    book.getAuthor(),
-                    book.getBookId(),
-                    book.getQuantity(),
-                    book.getAvailable()
-            };
+            Object[] row = {book.getId(), book.getTitle(), book.getAuthor(), book.getBookId(), book.getQuantity(), book.getAvailable()};
             booksModel.addRow(row);
         }
     }
@@ -208,12 +201,7 @@ public class LibraryGUI extends JFrame {
         usersModel.setRowCount(0);
         List<User> users = userDao.getAllUsers();
         for (User user : users) {
-            Object[] row = {
-                    user.getId(),
-                    user.getUsername(),
-                    user.getEmail(),
-                    user.getTimestamp(),
-            };
+            Object[] row = {user.getId(), user.getUsername(), user.getEmail(), user.getTimestamp(),};
             usersModel.addRow(row);
         }
     }
@@ -222,13 +210,7 @@ public class LibraryGUI extends JFrame {
         issuedBooksModel.setRowCount(0);
         List<Transactions> transactionsData = transactionsDao.displayIssuedBooks();
         for (Transactions transaction : transactionsData) {
-            Object[] row = {
-                    transaction.getId(),
-                    transaction.getBookname(),
-                    transaction.getUsername(),
-                    transaction.getStatus(),
-                    transaction.getDueDate(),
-            };
+            Object[] row = {transaction.getId(), transaction.getBookname(), transaction.getUsername(), transaction.getStatus(), transaction.getDueDate(),};
             issuedBooksModel.addRow(row);
         }
     }
@@ -237,13 +219,7 @@ public class LibraryGUI extends JFrame {
         returnBooksModel.setRowCount(0);
         List<Transactions> transactionsData = transactionsDao.displayReturnedBooks();
         for (Transactions transaction : transactionsData) {
-            Object[] row = {
-                    transaction.getId(),
-                    transaction.getBookname(),
-                    transaction.getUsername(),
-                    transaction.getStatus(),
-                    transaction.getReturnedDate(),
-            };
+            Object[] row = {transaction.getId(), transaction.getBookname(), transaction.getUsername(), transaction.getStatus(), transaction.getReturnedDate(),};
             returnBooksModel.addRow(row);
         }
     }
@@ -359,14 +335,20 @@ public class LibraryGUI extends JFrame {
         dialog.setVisible(true);
     }
 
-    private void deleteUserDialog() {
-        JDialog dialog = new JDialog(this, "Delete User", true);
-        dialog.add(new JLabel("Feature needs to be impleted here !!!"));
-
-        dialog.setSize(600, 400);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-    }
+//    private void deleteUserDialog() {
+//        int selectedRow = usersTable.getSelectedRow();
+//        if (selectedRow == -1) {
+//            JOptionPane.showMessageDialog(this, "First select a user to delete!");
+//            return;
+//        }
+//
+//        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this user?");
+//        if (confirm == JOptionPane.YES_OPTION) {
+//            userDao.deleteUser((Integer) usersModel.getValueAt(selectedRow, 0));
+//        } else {
+//            JOptionPane.showMessageDialog(this, "User deletion failed!");
+//        }
+//    }
 
     private void showAddUserDialog() {
         JDialog dialog = new JDialog(this, "Add User", true);
@@ -514,8 +496,7 @@ public class LibraryGUI extends JFrame {
                 try {
                     transactionsDao.issueBook(selectedBook.getId(), selectedUser.getId(), 5);
                     JOptionPane.showMessageDialog(rootPane, "Book Issued successfully");
-                    loadIssuedBooks
-();
+                    loadIssuedBooks();
                     loadBooks();
                     dialog.dispose();
                 } catch (BookNotAvailableException err) {
