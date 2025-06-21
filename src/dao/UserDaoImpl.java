@@ -54,11 +54,11 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public void deleteUser(User user) {
-
         try (Connection connection = DatabaseConnection.getConnection();) {
             String query = "DELETE FROM users WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
+            preparedStatement.executeUpdate();
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
