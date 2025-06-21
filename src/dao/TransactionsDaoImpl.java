@@ -33,14 +33,12 @@ public class TransactionsDaoImpl implements TransactionDao {
                 book.setBookId(resultSet.getString("bookId"));
             }
 
-            if (book.getQuantity() != 0) {
-
+            if (book.getAvailable() > 0) {
                 String query = "INSERT INTO transactions (user_id, book_id, transaction_type, due_date) VALUES (?, ?, ?, ?)";
 
                 // Calculate due date
                 LocalDate dueDate = LocalDate.now().plusDays(borrow_period);
-                Date sqlDueDate = Date.valueOf(dueDate); // Convert to java.sql.Date
-
+                Date sqlDueDate = Date.valueOf(dueDate);
 
                 PreparedStatement preparedStatement2 = connection.prepareStatement(query);
                 preparedStatement2.setInt(1, userId);
