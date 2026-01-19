@@ -13,8 +13,7 @@ With this system, librarians can easily issue and return books, search for membe
 The system includes features like:
 - **Book Management:** Add, edit, delete, and search books.  
 - **Member Management:** Register and manage library members.  
-- **Issue & Return:** Record book lending and returns with due dates.  
-- **Authentication:** Secure login system for authorized users.  
+- **Issue & Return:** Record book lending and returns with due dates.
 - **Database Integration:** All records are stored and managed using MySQL.  
 - **Clean GUI:** Developed with Java Swing and AWT for a smooth experience.  
 
@@ -27,7 +26,7 @@ It also reflects practical understanding of software engineering principles appl
 - **Language:** Java  
 - **GUI Framework:** Java Swing & AWT  
 - **Database:** MySQL (via JDBC)  
-- **IDE:** IntelliJ IDEA / NetBeans / Eclipse  
+- **IDE:** IntelliJ IDEA
 
 ---
 
@@ -41,6 +40,5 @@ It also reflects practical understanding of software engineering principles appl
 
 ## 🧑‍💻 Author
 **Santosh Phaiju**  
-Full Stack MERN Developer | Java Learner | Aspiring Tech Entrepreneur  
-📍 Kathmandu, Nepal  
-🔗 [GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourprofile)
+Full Stack Developer
+📍 Kathmandu, Nepal
